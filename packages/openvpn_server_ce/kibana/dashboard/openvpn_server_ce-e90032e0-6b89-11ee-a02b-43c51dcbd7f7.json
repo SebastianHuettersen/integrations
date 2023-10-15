@@ -1,0 +1,654 @@
+{
+    "attributes": {
+        "controlGroupInput": {
+            "chainingSystem": "HIERARCHICAL",
+            "controlStyle": "oneLine",
+            "ignoreParentSettingsJSON": "{\"ignoreFilters\":false,\"ignoreQuery\":false,\"ignoreTimerange\":false,\"ignoreValidations\":false}",
+            "panelsJSON": "{\"95b4e0c9-9be6-4799-b9c9-09e7846eee5d\":{\"type\":\"optionsListControl\",\"order\":0,\"grow\":true,\"width\":\"medium\",\"explicitInput\":{\"id\":\"95b4e0c9-9be6-4799-b9c9-09e7846eee5d\",\"fieldName\":\"host.hostname\",\"title\":\"Hostname\",\"grow\":true,\"width\":\"medium\",\"enhancements\":{}}}}"
+        },
+        "description": "Logs OpenVPN CE integration dashboard",
+        "kibanaSavedObjectMeta": {
+            "searchSourceJSON": {
+                "filter": [],
+                "query": {
+                    "language": "kuery",
+                    "query": ""
+                }
+            }
+        },
+        "optionsJSON": {
+            "hidePanelTitles": false,
+            "syncColors": false,
+            "syncCursor": true,
+            "syncTooltips": false,
+            "useMargins": true
+        },
+        "panelsJSON": [
+            {
+                "embeddableConfig": {
+                    "attributes": {
+                        "description": "",
+                        "layerListJSON": "[{\"locale\":\"autoselect\",\"sourceDescriptor\":{\"type\":\"EMS_TMS\",\"isAutoSelect\":true,\"lightModeDefault\":\"road_map_desaturated\"},\"id\":\"f907acec-1402-4fda-9b30-7b0acc41783e\",\"label\":null,\"minZoom\":0,\"maxZoom\":24,\"alpha\":1,\"visible\":true,\"style\":{\"type\":\"EMS_VECTOR_TILE\",\"color\":\"\"},\"includeInFitToBounds\":true,\"type\":\"EMS_VECTOR_TILE\"},{\"sourceDescriptor\":{\"geoField\":\"source.geo.location\",\"requestType\":\"point\",\"resolution\":\"MOST_FINE\",\"id\":\"cdc96f2b-c22f-4e40-946c-75285205e527\",\"type\":\"ES_GEO_GRID\",\"applyGlobalQuery\":true,\"applyGlobalTime\":true,\"applyForceRefresh\":true,\"metrics\":[{\"type\":\"cardinality\",\"field\":\"source.ip\"}],\"indexPatternRefName\":\"layer_1_source_index_pattern\"},\"style\":{\"type\":\"VECTOR\",\"properties\":{\"icon\":{\"type\":\"STATIC\",\"options\":{\"value\":\"marker\"}},\"fillColor\":{\"type\":\"DYNAMIC\",\"options\":{\"color\":\"Blues\",\"colorCategory\":\"palette_0\",\"field\":{\"origin\":\"source\",\"name\":\"cardinality_of_source.ip\"},\"fieldMetaOptions\":{\"isEnabled\":true,\"sigma\":3},\"type\":\"ORDINAL\"}},\"lineColor\":{\"type\":\"STATIC\",\"options\":{\"color\":\"#FFF\"}},\"lineWidth\":{\"type\":\"STATIC\",\"options\":{\"size\":0}},\"iconSize\":{\"type\":\"DYNAMIC\",\"options\":{\"minSize\":4,\"maxSize\":12,\"field\":{\"origin\":\"source\",\"name\":\"cardinality_of_source.ip\"},\"fieldMetaOptions\":{\"isEnabled\":true,\"sigma\":3}}},\"iconOrientation\":{\"type\":\"STATIC\",\"options\":{\"orientation\":0}},\"labelText\":{\"type\":\"DYNAMIC\",\"options\":{\"field\":{\"origin\":\"source\",\"name\":\"cardinality_of_source.ip\"}}},\"labelColor\":{\"type\":\"STATIC\",\"options\":{\"color\":\"#000000\"}},\"labelSize\":{\"type\":\"STATIC\",\"options\":{\"size\":14}},\"labelZoomRange\":{\"options\":{\"useLayerZoomRange\":true,\"minZoom\":0,\"maxZoom\":24}},\"labelBorderColor\":{\"type\":\"STATIC\",\"options\":{\"color\":\"#FFFFFF\"}},\"symbolizeAs\":{\"options\":{\"value\":\"circle\"}},\"labelBorderSize\":{\"options\":{\"size\":\"SMALL\"}},\"labelPosition\":{\"options\":{\"position\":\"CENTER\"}}},\"isTimeAware\":true},\"id\":\"295e9027-d6ca-45d0-856e-e45c4f073ec5\",\"label\":\"Unique IPs map [Logs OpenVPN CE]\",\"minZoom\":0,\"maxZoom\":24,\"alpha\":0.75,\"visible\":true,\"includeInFitToBounds\":true,\"type\":\"GEOJSON_VECTOR\",\"joins\":[],\"disableTooltips\":false,\"query\":{\"query\":\"event.dataset : \\\"openvpn_server_ce.log\\\" \",\"language\":\"kuery\"}}]",
+                        "mapStateJSON": "{\"adHocDataViews\":[],\"zoom\":2.07,\"center\":{\"lon\":0,\"lat\":19.94277},\"timeFilters\":{\"from\":\"now-7d/d\",\"to\":\"now\"},\"refreshConfig\":{\"isPaused\":true,\"interval\":60000},\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filters\":[],\"settings\":{\"autoFitToDataBounds\":false,\"backgroundColor\":\"#ffffff\",\"customIcons\":[],\"disableInteractive\":false,\"disableTooltipControl\":false,\"hideToolbarOverlay\":false,\"hideLayerControl\":false,\"hideViewControl\":false,\"initialLocation\":\"LAST_SAVED_LOCATION\",\"fixedLocation\":{\"lat\":0,\"lon\":0,\"zoom\":2},\"browserLocation\":{\"zoom\":2},\"keydownScrollZoom\":false,\"maxZoom\":24,\"minZoom\":0,\"showScaleControl\":false,\"showSpatialFilters\":true,\"showTimesliderToggleButton\":true,\"spatialFiltersAlpa\":0.3,\"spatialFiltersFillColor\":\"#DA8B45\",\"spatialFiltersLineColor\":\"#DA8B45\"}}",
+                        "title": "",
+                        "uiStateJSON": "{\"isLayerTOCOpen\":true,\"openTOCDetails\":[\"295e9027-d6ca-45d0-856e-e45c4f073ec5\"]}"
+                    },
+                    "enhancements": {},
+                    "hiddenLayers": [],
+                    "hidePanelTitles": false,
+                    "isLayerTOCOpen": false,
+                    "mapBuffer": {
+                        "maxLat": 66.51326,
+                        "maxLon": 360,
+                        "minLat": -66.51326,
+                        "minLon": -270
+                    },
+                    "mapCenter": {
+                        "lat": 18.96417,
+                        "lon": 25.88224,
+                        "zoom": 1.74
+                    },
+                    "openTOCDetails": [
+                        "295e9027-d6ca-45d0-856e-e45c4f073ec5"
+                    ]
+                },
+                "gridData": {
+                    "h": 22,
+                    "i": "7f437177-2df3-487b-b53b-301068cb576e",
+                    "w": 48,
+                    "x": 0,
+                    "y": 0
+                },
+                "panelIndex": "7f437177-2df3-487b-b53b-301068cb576e",
+                "title": "Unique IPs map [Logs OpenVPN CE]",
+                "type": "map",
+                "version": "8.10.1"
+            },
+            {
+                "embeddableConfig": {
+                    "attributes": {
+                        "description": "",
+                        "references": [
+                            {
+                                "id": "logs-*",
+                                "name": "indexpattern-datasource-layer-e65cb365-0a76-4cf9-857a-034f66669431",
+                                "type": "index-pattern"
+                            },
+                            {
+                                "id": "logs-*",
+                                "name": "a07dc904-d55f-4618-a49a-6cc233f5987b",
+                                "type": "index-pattern"
+                            }
+                        ],
+                        "state": {
+                            "adHocDataViews": {},
+                            "datasourceStates": {
+                                "formBased": {
+                                    "layers": {
+                                        "e65cb365-0a76-4cf9-857a-034f66669431": {
+                                            "columnOrder": [
+                                                "3f3699fc-185c-4648-9351-ea40407b3cef",
+                                                "4a88aa28-837b-4398-a6c0-7b649bb637b8"
+                                            ],
+                                            "columns": {
+                                                "3f3699fc-185c-4648-9351-ea40407b3cef": {
+                                                    "dataType": "string",
+                                                    "isBucketed": true,
+                                                    "label": "Top 3 values of event.outcome",
+                                                    "operationType": "terms",
+                                                    "params": {
+                                                        "exclude": [],
+                                                        "excludeIsRegex": false,
+                                                        "include": [],
+                                                        "includeIsRegex": false,
+                                                        "missingBucket": false,
+                                                        "orderBy": {
+                                                            "fallback": false,
+                                                            "type": "alphabetical"
+                                                        },
+                                                        "orderDirection": "desc",
+                                                        "otherBucket": true,
+                                                        "parentFormat": {
+                                                            "id": "terms"
+                                                        },
+                                                        "size": 3
+                                                    },
+                                                    "scale": "ordinal",
+                                                    "sourceField": "event.outcome"
+                                                },
+                                                "4a88aa28-837b-4398-a6c0-7b649bb637b8": {
+                                                    "dataType": "number",
+                                                    "isBucketed": false,
+                                                    "label": "Count of records",
+                                                    "operationType": "count",
+                                                    "params": {
+                                                        "emptyAsNull": true
+                                                    },
+                                                    "scale": "ratio",
+                                                    "sourceField": "___records___"
+                                                }
+                                            },
+                                            "incompleteColumns": {},
+                                            "sampling": 1
+                                        }
+                                    }
+                                },
+                                "indexpattern": {
+                                    "layers": {}
+                                },
+                                "textBased": {
+                                    "layers": {}
+                                }
+                            },
+                            "filters": [
+                                {
+                                    "$state": {
+                                        "store": "appState"
+                                    },
+                                    "meta": {
+                                        "alias": null,
+                                        "disabled": false,
+                                        "index": "a07dc904-d55f-4618-a49a-6cc233f5987b",
+                                        "key": "event.category",
+                                        "negate": false,
+                                        "params": {
+                                            "query": "authentication"
+                                        },
+                                        "type": "phrase"
+                                    },
+                                    "query": {
+                                        "match_phrase": {
+                                            "event.category": "authentication"
+                                        }
+                                    }
+                                }
+                            ],
+                            "internalReferences": [],
+                            "query": {
+                                "language": "kuery",
+                                "query": ""
+                            },
+                            "visualization": {
+                                "axisTitlesVisibilitySettings": {
+                                    "x": true,
+                                    "yLeft": true,
+                                    "yRight": true
+                                },
+                                "fittingFunction": "None",
+                                "gridlinesVisibilitySettings": {
+                                    "x": true,
+                                    "yLeft": true,
+                                    "yRight": true
+                                },
+                                "labelsOrientation": {
+                                    "x": 0,
+                                    "yLeft": 0,
+                                    "yRight": 0
+                                },
+                                "layers": [
+                                    {
+                                        "accessors": [
+                                            "4a88aa28-837b-4398-a6c0-7b649bb637b8"
+                                        ],
+                                        "layerId": "e65cb365-0a76-4cf9-857a-034f66669431",
+                                        "layerType": "data",
+                                        "palette": {
+                                            "name": "status",
+                                            "type": "palette"
+                                        },
+                                        "seriesType": "bar_horizontal_percentage_stacked",
+                                        "splitAccessor": "3f3699fc-185c-4648-9351-ea40407b3cef"
+                                    }
+                                ],
+                                "legend": {
+                                    "isVisible": true,
+                                    "position": "right"
+                                },
+                                "preferredSeriesType": "bar_horizontal_percentage_stacked",
+                                "tickLabelsVisibilitySettings": {
+                                    "x": true,
+                                    "yLeft": true,
+                                    "yRight": true
+                                },
+                                "valueLabels": "hide"
+                            }
+                        },
+                        "title": "",
+                        "type": "lens",
+                        "visualizationType": "lnsXY"
+                    },
+                    "enhancements": {},
+                    "hidePanelTitles": false
+                },
+                "gridData": {
+                    "h": 15,
+                    "i": "b398d93d-1451-4d2f-83a0-2f8672e61730",
+                    "w": 12,
+                    "x": 0,
+                    "y": 22
+                },
+                "panelIndex": "b398d93d-1451-4d2f-83a0-2f8672e61730",
+                "title": "Authentication [Logs OpenVPN CE]",
+                "type": "lens",
+                "version": "8.10.1"
+            },
+            {
+                "embeddableConfig": {
+                    "attributes": {
+                        "description": "",
+                        "references": [
+                            {
+                                "id": "logs-*",
+                                "name": "indexpattern-datasource-layer-2748741d-6761-4309-af13-6bcf37b2ac7a",
+                                "type": "index-pattern"
+                            },
+                            {
+                                "id": "logs-*",
+                                "name": "4f93bca8-e1a5-4403-96f0-39adf60e916d",
+                                "type": "index-pattern"
+                            },
+                            {
+                                "id": "logs-*",
+                                "name": "e803cdc6-ef81-4690-bea8-550f9cc938f1",
+                                "type": "index-pattern"
+                            }
+                        ],
+                        "state": {
+                            "adHocDataViews": {},
+                            "datasourceStates": {
+                                "formBased": {
+                                    "layers": {
+                                        "2748741d-6761-4309-af13-6bcf37b2ac7a": {
+                                            "columnOrder": [
+                                                "ad04f0e3-e97b-4313-bd91-373cf4943083"
+                                            ],
+                                            "columns": {
+                                                "ad04f0e3-e97b-4313-bd91-373cf4943083": {
+                                                    "customLabel": true,
+                                                    "dataType": "number",
+                                                    "isBucketed": false,
+                                                    "label": " ",
+                                                    "operationType": "unique_count",
+                                                    "params": {
+                                                        "emptyAsNull": true
+                                                    },
+                                                    "scale": "ratio",
+                                                    "sourceField": "user.name"
+                                                }
+                                            },
+                                            "incompleteColumns": {}
+                                        }
+                                    }
+                                },
+                                "indexpattern": {
+                                    "layers": {}
+                                },
+                                "textBased": {
+                                    "layers": {}
+                                }
+                            },
+                            "filters": [
+                                {
+                                    "$state": {
+                                        "store": "appState"
+                                    },
+                                    "meta": {
+                                        "alias": null,
+                                        "disabled": false,
+                                        "index": "4f93bca8-e1a5-4403-96f0-39adf60e916d",
+                                        "key": "event.category",
+                                        "negate": false,
+                                        "params": {
+                                            "query": "authentication"
+                                        },
+                                        "type": "phrase"
+                                    },
+                                    "query": {
+                                        "match_phrase": {
+                                            "event.category": "authentication"
+                                        }
+                                    }
+                                },
+                                {
+                                    "$state": {
+                                        "store": "appState"
+                                    },
+                                    "meta": {
+                                        "alias": null,
+                                        "disabled": false,
+                                        "index": "e803cdc6-ef81-4690-bea8-550f9cc938f1",
+                                        "key": "event.outcome",
+                                        "negate": false,
+                                        "params": {
+                                            "query": "success"
+                                        },
+                                        "type": "phrase"
+                                    },
+                                    "query": {
+                                        "match_phrase": {
+                                            "event.outcome": "success"
+                                        }
+                                    }
+                                }
+                            ],
+                            "internalReferences": [],
+                            "query": {
+                                "language": "kuery",
+                                "query": ""
+                            },
+                            "visualization": {
+                                "accessor": "ad04f0e3-e97b-4313-bd91-373cf4943083",
+                                "layerId": "2748741d-6761-4309-af13-6bcf37b2ac7a",
+                                "layerType": "data"
+                            }
+                        },
+                        "title": "",
+                        "type": "lens",
+                        "visualizationType": "lnsLegacyMetric"
+                    },
+                    "enhancements": {},
+                    "hidePanelTitles": false
+                },
+                "gridData": {
+                    "h": 15,
+                    "i": "b8e89224-ea43-49d4-a769-2141f6bc0b62",
+                    "w": 13,
+                    "x": 12,
+                    "y": 22
+                },
+                "panelIndex": "b8e89224-ea43-49d4-a769-2141f6bc0b62",
+                "title": "Connected Clients [Logs OpenVPN CE]",
+                "type": "lens",
+                "version": "8.10.1"
+            },
+            {
+                "embeddableConfig": {
+                    "attributes": {
+                        "description": "",
+                        "references": [
+                            {
+                                "id": "logs-*",
+                                "name": "indexpattern-datasource-layer-836ed09f-cf9c-4808-8c20-37b525fa1dc6",
+                                "type": "index-pattern"
+                            }
+                        ],
+                        "state": {
+                            "adHocDataViews": {},
+                            "datasourceStates": {
+                                "formBased": {
+                                    "layers": {
+                                        "836ed09f-cf9c-4808-8c20-37b525fa1dc6": {
+                                            "columnOrder": [
+                                                "4ef25ac3-9cbf-4224-9dda-fc877f7c3ebc",
+                                                "58bd8cd3-d5cb-45f8-8443-b519d246e793"
+                                            ],
+                                            "columns": {
+                                                "4ef25ac3-9cbf-4224-9dda-fc877f7c3ebc": {
+                                                    "dataType": "string",
+                                                    "isBucketed": true,
+                                                    "label": "Top 5 values of openvpn.client.cipher",
+                                                    "operationType": "terms",
+                                                    "params": {
+                                                        "exclude": [],
+                                                        "excludeIsRegex": false,
+                                                        "include": [],
+                                                        "includeIsRegex": false,
+                                                        "missingBucket": false,
+                                                        "orderBy": {
+                                                            "columnId": "58bd8cd3-d5cb-45f8-8443-b519d246e793",
+                                                            "type": "column"
+                                                        },
+                                                        "orderDirection": "desc",
+                                                        "otherBucket": true,
+                                                        "parentFormat": {
+                                                            "id": "terms"
+                                                        },
+                                                        "size": 5
+                                                    },
+                                                    "scale": "ordinal",
+                                                    "sourceField": "openvpn.client.cipher"
+                                                },
+                                                "58bd8cd3-d5cb-45f8-8443-b519d246e793": {
+                                                    "dataType": "number",
+                                                    "isBucketed": false,
+                                                    "label": "Count of records",
+                                                    "operationType": "count",
+                                                    "params": {
+                                                        "emptyAsNull": true
+                                                    },
+                                                    "scale": "ratio",
+                                                    "sourceField": "___records___"
+                                                }
+                                            },
+                                            "incompleteColumns": {},
+                                            "sampling": 1
+                                        }
+                                    }
+                                },
+                                "indexpattern": {
+                                    "layers": {}
+                                },
+                                "textBased": {
+                                    "layers": {}
+                                }
+                            },
+                            "filters": [],
+                            "internalReferences": [],
+                            "query": {
+                                "language": "kuery",
+                                "query": ""
+                            },
+                            "visualization": {
+                                "layers": [
+                                    {
+                                        "categoryDisplay": "default",
+                                        "layerId": "836ed09f-cf9c-4808-8c20-37b525fa1dc6",
+                                        "layerType": "data",
+                                        "legendDisplay": "default",
+                                        "metrics": [
+                                            "58bd8cd3-d5cb-45f8-8443-b519d246e793"
+                                        ],
+                                        "nestedLegend": false,
+                                        "numberDisplay": "percent",
+                                        "primaryGroups": [
+                                            "4ef25ac3-9cbf-4224-9dda-fc877f7c3ebc"
+                                        ]
+                                    }
+                                ],
+                                "shape": "pie"
+                            }
+                        },
+                        "title": "",
+                        "type": "lens",
+                        "visualizationType": "lnsPie"
+                    },
+                    "enhancements": {},
+                    "hidePanelTitles": false
+                },
+                "gridData": {
+                    "h": 15,
+                    "i": "9b0d6b64-5408-4ecd-9f70-4a718682cdaa",
+                    "w": 11,
+                    "x": 25,
+                    "y": 22
+                },
+                "panelIndex": "9b0d6b64-5408-4ecd-9f70-4a718682cdaa",
+                "title": "Ciphers breakdown [Logs OpenVPN CE]",
+                "type": "lens",
+                "version": "8.10.1"
+            },
+            {
+                "embeddableConfig": {
+                    "attributes": {
+                        "description": "",
+                        "references": [
+                            {
+                                "id": "logs-*",
+                                "name": "indexpattern-datasource-layer-836ed09f-cf9c-4808-8c20-37b525fa1dc6",
+                                "type": "index-pattern"
+                            }
+                        ],
+                        "state": {
+                            "adHocDataViews": {},
+                            "datasourceStates": {
+                                "formBased": {
+                                    "layers": {
+                                        "836ed09f-cf9c-4808-8c20-37b525fa1dc6": {
+                                            "columnOrder": [
+                                                "3ad23bcd-5cca-42ae-b8f1-cadb2f3cfad4",
+                                                "58bd8cd3-d5cb-45f8-8443-b519d246e793"
+                                            ],
+                                            "columns": {
+                                                "3ad23bcd-5cca-42ae-b8f1-cadb2f3cfad4": {
+                                                    "dataType": "string",
+                                                    "isBucketed": true,
+                                                    "label": "Top 5 values of openvpn.client.os.platform",
+                                                    "operationType": "terms",
+                                                    "params": {
+                                                        "exclude": [],
+                                                        "excludeIsRegex": false,
+                                                        "include": [],
+                                                        "includeIsRegex": false,
+                                                        "missingBucket": false,
+                                                        "orderBy": {
+                                                            "columnId": "58bd8cd3-d5cb-45f8-8443-b519d246e793",
+                                                            "type": "column"
+                                                        },
+                                                        "orderDirection": "desc",
+                                                        "otherBucket": true,
+                                                        "parentFormat": {
+                                                            "id": "terms"
+                                                        },
+                                                        "size": 5
+                                                    },
+                                                    "scale": "ordinal",
+                                                    "sourceField": "openvpn.client.os.platform"
+                                                },
+                                                "58bd8cd3-d5cb-45f8-8443-b519d246e793": {
+                                                    "dataType": "number",
+                                                    "isBucketed": false,
+                                                    "label": "Count of records",
+                                                    "operationType": "count",
+                                                    "params": {
+                                                        "emptyAsNull": true
+                                                    },
+                                                    "scale": "ratio",
+                                                    "sourceField": "___records___"
+                                                }
+                                            },
+                                            "incompleteColumns": {},
+                                            "sampling": 1
+                                        }
+                                    }
+                                },
+                                "indexpattern": {
+                                    "layers": {}
+                                },
+                                "textBased": {
+                                    "layers": {}
+                                }
+                            },
+                            "filters": [],
+                            "internalReferences": [],
+                            "query": {
+                                "language": "kuery",
+                                "query": ""
+                            },
+                            "visualization": {
+                                "layers": [
+                                    {
+                                        "categoryDisplay": "default",
+                                        "layerId": "836ed09f-cf9c-4808-8c20-37b525fa1dc6",
+                                        "layerType": "data",
+                                        "legendDisplay": "default",
+                                        "metrics": [
+                                            "58bd8cd3-d5cb-45f8-8443-b519d246e793"
+                                        ],
+                                        "nestedLegend": false,
+                                        "numberDisplay": "percent",
+                                        "primaryGroups": [
+                                            "3ad23bcd-5cca-42ae-b8f1-cadb2f3cfad4"
+                                        ]
+                                    }
+                                ],
+                                "shape": "pie"
+                            }
+                        },
+                        "title": "",
+                        "type": "lens",
+                        "visualizationType": "lnsPie"
+                    },
+                    "enhancements": {},
+                    "hidePanelTitles": false
+                },
+                "gridData": {
+                    "h": 15,
+                    "i": "c03edc58-ee4a-4677-b859-cbff7da39c47",
+                    "w": 12,
+                    "x": 36,
+                    "y": 22
+                },
+                "panelIndex": "c03edc58-ee4a-4677-b859-cbff7da39c47",
+                "title": "Operating systems breakdown [Logs OpenVPN CE]",
+                "type": "lens",
+                "version": "8.10.1"
+            }
+        ],
+        "timeRestore": false,
+        "title": "[Logs OpenVPN CE Server] Access and error logs",
+        "version": 1
+    },
+    "coreMigrationVersion": "8.8.0",
+    "created_at": "2023-10-15T18:58:42.432Z",
+    "id": "openvpn_server_ce-e90032e0-6b89-11ee-a02b-43c51dcbd7f7",
+    "managed": false,
+    "references": [
+        {
+            "id": "logs-*",
+            "name": "7f437177-2df3-487b-b53b-301068cb576e:layer_1_source_index_pattern",
+            "type": "index-pattern"
+        },
+        {
+            "id": "logs-*",
+            "name": "b398d93d-1451-4d2f-83a0-2f8672e61730:indexpattern-datasource-layer-e65cb365-0a76-4cf9-857a-034f66669431",
+            "type": "index-pattern"
+        },
+        {
+            "id": "logs-*",
+            "name": "b398d93d-1451-4d2f-83a0-2f8672e61730:a07dc904-d55f-4618-a49a-6cc233f5987b",
+            "type": "index-pattern"
+        },
+        {
+            "id": "logs-*",
+            "name": "b8e89224-ea43-49d4-a769-2141f6bc0b62:indexpattern-datasource-layer-2748741d-6761-4309-af13-6bcf37b2ac7a",
+            "type": "index-pattern"
+        },
+        {
+            "id": "logs-*",
+            "name": "b8e89224-ea43-49d4-a769-2141f6bc0b62:4f93bca8-e1a5-4403-96f0-39adf60e916d",
+            "type": "index-pattern"
+        },
+        {
+            "id": "logs-*",
+            "name": "b8e89224-ea43-49d4-a769-2141f6bc0b62:e803cdc6-ef81-4690-bea8-550f9cc938f1",
+            "type": "index-pattern"
+        },
+        {
+            "id": "logs-*",
+            "name": "9b0d6b64-5408-4ecd-9f70-4a718682cdaa:indexpattern-datasource-layer-836ed09f-cf9c-4808-8c20-37b525fa1dc6",
+            "type": "index-pattern"
+        },
+        {
+            "id": "logs-*",
+            "name": "c03edc58-ee4a-4677-b859-cbff7da39c47:indexpattern-datasource-layer-836ed09f-cf9c-4808-8c20-37b525fa1dc6",
+            "type": "index-pattern"
+        },
+        {
+            "id": "logs-*",
+            "name": "controlGroup_95b4e0c9-9be6-4799-b9c9-09e7846eee5d:optionsListDataView",
+            "type": "index-pattern"
+        }
+    ],
+    "type": "dashboard",
+    "typeMigrationVersion": "8.9.0"
+}

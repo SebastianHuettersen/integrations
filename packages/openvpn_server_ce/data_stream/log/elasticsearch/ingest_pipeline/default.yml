@@ -1,0 +1,231 @@
+---
+description: Pipeline for processing sample logs
+processors:
+    - set:
+        field: ecs.version
+        value: '8.10.0'
+    
+    - rename:
+        if: ctx.event?.original == null
+        field: message
+        target_field: event.original
+        ignore_missing: true
+
+    - grok:
+        description: Grok the message header.
+        tag: grok-message-header
+        field: event.original
+        pattern_definitions:
+            GREEDYMULTILINE: '(.|\n)*'
+            TIMESTAMP: (?:%{TIMESTAMP_ISO8601}|%{SYSLOGTIMESTAMP})
+        patterns:
+            - '^%{TIMESTAMP:_temp.timestamp} %{GREEDYMULTILINE:message}$'
+
+    
+    - grok:
+        description: Grok specific openvpn messages.
+        tag: grok-specific-messages
+        field: message
+        ignore_missing: true
+        ignore_failure: true
+        pattern_definitions:
+            SOURCE: '%{IP:source.address}:%{NONNEGINT:source.port:long}'
+        patterns:
+            - '%{SOURCE}%{SPACE}peer%{SPACE}info:%{SPACE}%{GREEDYDATA:_temp.client.peer_info}'
+            - '%{USERNAME:user.name}/%{SOURCE} %{GREEDYDATA:_temp.vpn_client_message}'
+            - '%{SOURCE} %{GREEDYDATA:_temp.vpn_client_message}'
+            - '%{GREEDYDATA}%{SOURCE}%{GREEDYDATA}'
+            - 'net_route_v4_best_gw result: via %{IP:openvpn.server.gateway} dev %{WORD:interface.name}'
+            - '%{GREEDYDATA:_temp.vpn_server_message}'
+
+
+
+    - grok:
+        description: Grok specific openvpn peer_info messages.
+        tag: grok-specific-messages
+        field: _temp.client.peer_info
+        ignore_missing: true
+        patterns:
+            - 'IV_VER=%{GREEDYDATA:openvpn.client.version}'
+            - 'IV_GUI_VER=%{GREEDYDATA:openvpn.client.gui.version}'
+            - 'IV_PLAT=%{GREEDYDATA:openvpn.client.os.platform}'
+            - 'IV_PLAT_VER=%{GREEDYDATA:openvpn.client.os.version}'
+            - 'IV_TCPNL=%{GREEDYDATA:openvpn.client.tcp_nonlinear_mode}'
+            - 'IV_MTU=%{GREEDYDATA:openvpn.client.mtu}'
+            - 'IV_CIPHERS=%{GREEDYDATA:openvpn.client.ciphers}'
+            - 'IV_PROTO=%{GREEDYDATA:openvpn.client.protocol_extensions}'
+            - 'IV_LZO_STUB=%{GREEDYDATA:openvpn.client.lzo}'
+            - 'IV_LZ4=%{GREEDYDATA:openvpn.client.lz4}'
+            - 'IV_SSO=%{GREEDYDATA:openvpn.client.sso}'
+            - 'IV_HWADDR=%{GREEDYDATA:openvpn.client.id}'
+            - 'IV_SSL=%{GREEDYDATA:openvpn.client.ssl.version}'
+        on_failure:
+            - rename:
+                description: We do not know the Key therfore leave content unmatched.
+                field: _temp.client.peer_info
+                target_field: openvpn.client.peer_info
+
+    - grok:
+        description: Grok specific openvpn client messages.
+        tag: grok-specific-messages
+        field: _temp.vpn_server_message
+        ignore_missing: true
+        ignore_failure: true
+        patterns:
+            - "Outgoing Data Channel: Cipher '%{GREEDYDATA:openvpn.server.cipher}' initialized with %{INT} bit key"
+            - "Outgoing Control Channel Encryption: Cipher '%{GREEDYDATA:openvpn.server.cipher}' initialized with %{INT} bit key"
+            - "Outgoing Control Channel Encryption: Using 256 bit message hash '%{GREEDYDATA:openvpn.server.hash}' for HMAC authentication"
+            - "Incoming Data Channel: Cipher '%{GREEDYDATA:openvpn.server.cipher}' initialized with %{INT} bit key"
+            - "Incoming Control Channel Encryption: Cipher '%{GREEDYDATA:openvpn.server.cipher}' initialized with %{INT} bit key"
+            - "Incoming Control Channel Encryption: Using %{INT} bit message hash '%{GREEDYDATA:openvpn.server.hash}' for HMAC authentication"
+
+    - grok:
+        description: Grok specific openvpn server messages.
+        tag: grok-specific-messages
+        field: _temp.vpn_client_message 
+        ignore_missing: true
+        ignore_failure: true
+        pattern_definitions:
+            SOURCE: '%{IP:source.address}:%{NONNEGINT:source.port:long}'
+        patterns:
+            - "VERIFY %{GREEDYDATA}: depth=%{INT}, CN=%{GREEDYDATA:user.name}"
+            - 'MULTI_sva: pool returned IPv4=(%{IP:source.nat.ip}|%{GREEDYDATA}),%{SPACE}IPv6=(%{IP:source.nat.ip}|%{GREEDYDATA})'
+            - 'MULTI: Learn: %{IP:source.nat.ip} -> %{USERNAME:user.name}/%{SOURCE}'
+            - 'MULTI: primary virtual IP for %{USERNAME:user.name}/%{SOURCE}: %{IP:source.nat.ip}'
+            - "Outgoing Data Channel: Cipher '%{GREEDYDATA:openvpn.client.cipher}' initialized with %{INT} bit key"
+            - "Outgoing Control Channel Encryption: Cipher '%{GREEDYDATA:openvpn.client.cipher}' initialized with %{INT} bit key"
+            - "Outgoing Control Channel Encryption: Using %{INT} bit message hash '%{GREEDYDATA:openvpn.client.hash}' for HMAC authentication"
+            - "Incoming Data Channel: Cipher '%{GREEDYDATA:openvpn.client.cipher}' initialized with %{INT} bit key"
+            - "Incoming Control Channel Encryption: Cipher '%{GREEDYDATA:openvpn.client.cipher}' initialized with %{INT} bit key"
+            - "Incoming Control Channel Encryption: Using %{INT} bit message hash '%{GREEDYDATA:openvpn.client.hash}' for HMAC authentication"
+            - "Control Channel: TLSv%{GREEDYDATA}, cipher TLSv%{GREEDYDATA:tls.version} %{GREEDYDATA:tls.cipher}, %{GREEDYDATA}, curve: %{GREEDYDATA:tls.curve}"
+            - "[%{USERNAME:user.name}] Peer Connection Initiated with [AF_INET]%{SOURCE}"
+            - "OpenSSL: error:1417C0C7:SSL routines:tls_process_client_certificate:peer did not return a certificate"
+            - "SENT CONTROL \\[%{USERNAME}\\]: '%{GREEDYDATA:openvpn.client.control}' \\(status=%{INT}\\)"
+            - "SIGTERM[soft,remote-exit] received, client-instance exiting"
+            - "TLS: Initial packet from \\[AF_INET\\]%{SOURCE}, sid=%{BASE16NUM:openvpn.client.session.id}"    
+
+    - set:
+        field: message
+        value: "{{_temp.vpn_message}}"
+        ignore_empty_value: true
+
+    - date:
+        if: ctx.event?.timezone == null
+        field: _temp.timestamp
+        target_field: '@timestamp'
+        formats:
+            - MMM  d HH:mm:ss
+            - MMM dd HH:mm:ss
+            - ISO8601
+            - yyyy-MM-dd HH:mm:ss
+        on_failure:
+            - append:
+                field: error.message
+                value: '{{{ _ingest.on_failure_message }}}'
+
+    - date:
+        if: ctx.event?.timezone != null
+        field: _temp.timestamp
+        target_field: '@timestamp'
+        formats:
+            - MMM  d HH:mm:ss
+            - MMM dd HH:mm:ss
+            - ISO8601
+            - yyyy-MM-dd HH:mm:ss
+        timezone: '{{{ event.timezone }}}'
+        on_failure:
+            - append:
+                field: error.message
+                value: '{{{ _ingest.on_failure_message }}}'
+
+    - append:
+        field: event.category
+        value: authentication
+        allow_duplicates: false
+        if: ctx._temp?.vpn_client_message != null && ctx._temp?.vpn_client_message.contains('VERIFY')
+
+    - append:
+        field: event.category
+        value: authentication
+        allow_duplicates: false
+        if: ctx.message != null && ctx.message.contains('tls-crypt unwrapping failed')
+
+    - append:
+        field: event.outcome
+        value: success
+        allow_duplicates: false
+        if: ctx._temp?.vpn_client_message != null && ctx._temp?.vpn_client_message.contains('OK') && ctx.event?.category.contains('authentication')
+
+    - append:
+        field: event.type
+        value: connection
+        allow_duplicates: false
+        if: ctx.source?.address != null
+
+    - append:
+        field: event.outcome
+        value: failure
+        allow_duplicates: false
+        if: ctx.event.original.toLowerCase().contains('error') || ctx.event.original.toLowerCase().contains('not auth') 
+
+    - append:
+        field: event.type
+        value: start
+        allow_duplicates: false
+        if: ctx.event.original.toLowerCase().contains('peer connection initiated')
+
+    - append:
+        field: event.type
+        value: end
+        allow_duplicates: false
+        if: ctx.event.original.toLowerCase().contains('client-instance exiting')
+
+    - set:
+        field: source.ip
+        value: "{{source.address}}"
+        ignore_empty_value: true
+
+    - geoip:
+        field: source.ip
+        target_field: source.geo
+        ignore_missing: true
+
+    - geoip:
+        database_file: GeoLite2-ASN.mmdb
+        field: source.ip
+        target_field: source.as
+        properties:
+            - asn
+            - organization_name
+        ignore_missing: true
+
+    - rename:
+        field: source.as.asn
+        target_field: source.as.number
+        ignore_missing: true
+
+    - rename:
+        field: source.as.organization_name
+        target_field: source.as.organization.name
+        ignore_missing: true
+
+    - remove:
+        field:
+            - _temp
+        ignore_failure: true
+        ignore_missing: true
+
+    - remove:
+        field: event.original
+        if: "ctx?.tags == null || !(ctx.tags.contains('preserve_original_event'))"
+        ignore_failure: true
+        ignore_missing: true
+
+on_failure:
+    - set:
+        field: event.kind
+        value: pipeline_error
+    - set:
+        field: error.message
+        value: '{{ _ingest.on_failure_message }}'

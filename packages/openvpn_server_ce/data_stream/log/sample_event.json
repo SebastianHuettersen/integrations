@@ -1,0 +1,61 @@
+{
+    "@timestamp": "2023-10-14T16:49:29.000Z",
+    "agent": {
+        "ephemeral_id": "b47abda8-874e-4a1c-8c5e-44c547ec28f8",
+        "id": "db2936d8-c4aa-4fc5-a08c-02c2c958f2c3",
+        "name": "docker-fleet-agent",
+        "type": "filebeat",
+        "version": "8.10.1"
+    },
+    "data_stream": {
+        "dataset": "openvpn_server_ce.log",
+        "namespace": "ep",
+        "type": "logs"
+    },
+    "ecs": {
+        "version": "8.10.0"
+    },
+    "elastic_agent": {
+        "id": "db2936d8-c4aa-4fc5-a08c-02c2c958f2c3",
+        "snapshot": false,
+        "version": "8.10.1"
+    },
+    "event": {
+        "agent_id_status": "verified",
+        "dataset": "openvpn_server_ce.log",
+        "ingested": "2023-10-15T18:29:47Z",
+        "timezone": "+00:00"
+    },
+    "host": {
+        "architecture": "x86_64",
+        "containerized": false,
+        "hostname": "docker-fleet-agent",
+        "id": "28da52b32df94b50aff67dfb8f1be3d6",
+        "ip": [
+            "172.22.0.7"
+        ],
+        "mac": [
+            "02-42-AC-16-00-07"
+        ],
+        "name": "docker-fleet-agent",
+        "os": {
+            "codename": "focal",
+            "family": "debian",
+            "kernel": "6.5.0-1-amd64",
+            "name": "Ubuntu",
+            "platform": "ubuntu",
+            "type": "linux",
+            "version": "20.04.6 LTS (Focal Fossa)"
+        }
+    },
+    "input": {
+        "type": "log"
+    },
+    "log": {
+        "file": {
+            "path": "/tmp/service_logs/openvpn_server.log"
+        },
+        "offset": 0
+    },
+    "message": "OpenVPN 2.5.1 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on May 14 2021"
+}

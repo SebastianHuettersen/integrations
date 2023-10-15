@@ -1,0 +1,71 @@
+- name: openvpn
+  type: group
+  fields:
+    - name: client
+      description: "Information related to the openvpn clients."
+      type: group
+      fields:
+        - name: cipher
+          description: "Used Cipher for the client connection."
+          type: keyword
+        - name: hash
+          description: "Used message hash for the client connection."
+          type: keyword
+        - name: control
+          description: "Options pushed to the Client from the server."
+          type: keyword
+        - name: session.id
+          description: "Client session id."
+          type: keyword
+        - name: peer_info
+          description: "Information of the openvpn client."
+          type: keyword
+        - name: id
+          description: "A unique and persistent ID of the client."
+          type: keyword
+        - name: version
+          description: "The client used OpenVPN version."
+          type: keyword
+        - name: gui.version
+          description: "The client used UI version."
+          type: keyword
+        - name: os
+          type: group
+          fields:
+            - name: platform
+              description: "The client operating system platform."
+              type: keyword
+            - name: version
+              description: "The client running operating system version."
+              type: keyword
+        - name: ciphers
+          description: "Client announced supported ciphers."
+          type: keyword
+        - name: lzo
+          description: "If client was built with LZO stub capability."
+          type: keyword
+        - name: lz4
+          description: "If the client supports LZ4 compressions."
+          type: keyword
+        - name: mtu
+          description: "The client announced support of pushable MTU and the maximum MTU it is willing to accept."
+          type: keyword
+        - name: protocol_extensions
+          description: "Details about protocol extensions that the peer supports."
+          type: keyword
+        - name: tcp_nonlinear_mode
+          description: "client indicates its ability to process non-linear packet ID sequences in TCP mode."
+          type: keyword
+    - name: server
+      description: Information related to the openvpn server
+      type: group
+      fields:
+        - name: cipher
+          description: "Used Cipher for the connection."
+          type: keyword
+        - name: hash
+          description: "Used Hash for the connection."
+          type: keyword
+        - name: gateway
+          description: "Used Gateway of the openvpn Server."
+          type: ip

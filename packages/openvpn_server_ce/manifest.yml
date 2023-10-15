@@ -1,0 +1,37 @@
+format_version: 2.13.0
+name: openvpn_server_ce
+title: "OpenVPN Community Edition Server"
+version: 0.0.5
+source:
+  license: "Apache-2.0"
+description: "Collect logs and metrics from OpenVPN CE Server"
+type: integration
+categories:
+  - network
+  - security
+conditions:
+  kibana:
+    version: "^8.10.1"
+  elastic:
+    subscription: "basic"
+screenshots:
+  - src: /img/sample-screenshot.png
+    title: Sample screenshot
+    size: 600x600
+    type: image/png
+icons:
+  - src: /img/OpenVPN_logo.svg
+    title: OpenVPN logo
+    size: 32x32
+    type: image/svg+xml
+policy_templates:
+  - name: openvpn_ce
+    title: OpenVPN CE logs and metrics
+    description: Collect logs and metrics from OpenVPN Community Edition instances
+    inputs:
+      - type: logfile
+        title: Collect logs from OpenVPN CE instances
+        description: Collect OpenVPN CE server logs
+owner:
+  github: SebastianHuettersen/integrations
+  type: community
