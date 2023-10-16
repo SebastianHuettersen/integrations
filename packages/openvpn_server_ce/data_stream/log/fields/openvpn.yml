@@ -5,14 +5,11 @@
       description: "Information related to the openvpn clients."
       type: group
       fields:
-        - name: cipher
-          description: "Used Cipher for the client connection."
-          type: keyword
-        - name: hash
-          description: "Used message hash for the client connection."
-          type: keyword
-        - name: control
+        - name: control.config
           description: "Options pushed to the Client from the server."
+          type: keyword
+        - name: control.status
+          description: "Status of the pushed config to the Client."
           type: keyword
         - name: session.id
           description: "Client session id."
@@ -69,3 +66,13 @@
         - name: gateway
           description: "Used Gateway of the openvpn Server."
           type: ip
+    
+    - name: cipher
+      description: "Used Cipher for the connection."
+      type: keyword
+    - name: hash
+      description: "Used message hash for the connection."
+      type: keyword
+    - name: event.type.name
+      description: "OpenVPN event type."
+      type: keyword

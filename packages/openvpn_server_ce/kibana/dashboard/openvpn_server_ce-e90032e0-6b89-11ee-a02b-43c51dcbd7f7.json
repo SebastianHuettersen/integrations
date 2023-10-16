@@ -386,7 +386,7 @@
                                                 "4ef25ac3-9cbf-4224-9dda-fc877f7c3ebc": {
                                                     "dataType": "string",
                                                     "isBucketed": true,
-                                                    "label": "Top 5 values of openvpn.client.cipher",
+                                                    "label": "Top 5 values of openvpn.cipher",
                                                     "operationType": "terms",
                                                     "params": {
                                                         "exclude": [],
@@ -406,7 +406,7 @@
                                                         "size": 5
                                                     },
                                                     "scale": "ordinal",
-                                                    "sourceField": "openvpn.client.cipher"
+                                                    "sourceField": "openvpn.cipher"
                                                 },
                                                 "58bd8cd3-d5cb-45f8-8443-b519d246e793": {
                                                     "dataType": "number",

@@ -18,10 +18,24 @@ processors:
         pattern_definitions:
             GREEDYMULTILINE: '(.|\n)*'
             TIMESTAMP: (?:%{TIMESTAMP_ISO8601}|%{SYSLOGTIMESTAMP})
+            SOURCE: '%{IP:source.address}:%{NONNEGINT:source.port:long}'
+            
         patterns:
+            - '^%{TIMESTAMP:_temp.timestamp} %{USERNAME:user.name}/%{SOURCE} %{GREEDYMULTILINE:message}$'
+            - '^%{TIMESTAMP:_temp.timestamp} %{SOURCE} %{GREEDYMULTILINE:message}$'
             - '^%{TIMESTAMP:_temp.timestamp} %{GREEDYMULTILINE:message}$'
-
     
+    - grok:
+        description: Grok for extraction event type name.
+        tag: grok-specific-messages
+        field: message
+        ignore_missing: true
+        ignore_failure: true
+        pattern_definitions:
+            EVENTACTION: '([^:]+)'
+        patterns:
+            - '^%{EVENTACTION:openvpn.event.type.name}: %{GREEDYDATA:_temp.event.message}$'
+
     - grok:
         description: Grok specific openvpn messages.
         tag: grok-specific-messages
@@ -31,14 +45,9 @@ processors:
         pattern_definitions:
             SOURCE: '%{IP:source.address}:%{NONNEGINT:source.port:long}'
         patterns:
-            - '%{SOURCE}%{SPACE}peer%{SPACE}info:%{SPACE}%{GREEDYDATA:_temp.client.peer_info}'
-            - '%{USERNAME:user.name}/%{SOURCE} %{GREEDYDATA:_temp.vpn_client_message}'
-            - '%{SOURCE} %{GREEDYDATA:_temp.vpn_client_message}'
-            - '%{GREEDYDATA}%{SOURCE}%{GREEDYDATA}'
-            - 'net_route_v4_best_gw result: via %{IP:openvpn.server.gateway} dev %{WORD:interface.name}'
-            - '%{GREEDYDATA:_temp.vpn_server_message}'
-
-
+            - '^peer%{SPACE}info:%{SPACE}%{GREEDYDATA:_temp.client.peer_info}$'
+            - '^net_route_v4_best_gw result: via %{IP:openvpn.server.gateway} dev %{WORD:interface.name}$'
+            - '\[%{NOTSPACE}\]%{SOURCE}$'
 
     - grok:
         description: Grok specific openvpn peer_info messages.
@@ -46,19 +55,19 @@ processors:
         field: _temp.client.peer_info
         ignore_missing: true
         patterns:
-            - 'IV_VER=%{GREEDYDATA:openvpn.client.version}'
-            - 'IV_GUI_VER=%{GREEDYDATA:openvpn.client.gui.version}'
-            - 'IV_PLAT=%{GREEDYDATA:openvpn.client.os.platform}'
-            - 'IV_PLAT_VER=%{GREEDYDATA:openvpn.client.os.version}'
-            - 'IV_TCPNL=%{GREEDYDATA:openvpn.client.tcp_nonlinear_mode}'
-            - 'IV_MTU=%{GREEDYDATA:openvpn.client.mtu}'
-            - 'IV_CIPHERS=%{GREEDYDATA:openvpn.client.ciphers}'
-            - 'IV_PROTO=%{GREEDYDATA:openvpn.client.protocol_extensions}'
-            - 'IV_LZO_STUB=%{GREEDYDATA:openvpn.client.lzo}'
-            - 'IV_LZ4=%{GREEDYDATA:openvpn.client.lz4}'
-            - 'IV_SSO=%{GREEDYDATA:openvpn.client.sso}'
-            - 'IV_HWADDR=%{GREEDYDATA:openvpn.client.id}'
-            - 'IV_SSL=%{GREEDYDATA:openvpn.client.ssl.version}'
+            - '^IV_VER=%{GREEDYDATA:openvpn.client.version}'
+            - '^IV_GUI_VER=%{GREEDYDATA:openvpn.client.gui.version}'
+            - '^IV_PLAT=%{GREEDYDATA:openvpn.client.os.platform}'
+            - '^IV_PLAT_VER=%{GREEDYDATA:openvpn.client.os.version}'
+            - '^IV_TCPNL=%{GREEDYDATA:openvpn.client.tcp_nonlinear_mode}'
+            - '^IV_MTU=%{GREEDYDATA:openvpn.client.mtu}'
+            - '^IV_CIPHERS=%{GREEDYDATA:openvpn.client.ciphers}'
+            - '^IV_PROTO=%{GREEDYDATA:openvpn.client.protocol_extensions}'
+            - '^IV_LZO_STUB=%{GREEDYDATA:openvpn.client.lzo}'
+            - '^IV_LZ4=%{GREEDYDATA:openvpn.client.lz4}'
+            - '^IV_SSO=%{GREEDYDATA:openvpn.client.sso}'
+            - '^IV_HWADDR=%{GREEDYDATA:openvpn.client.id}'
+            - '^IV_SSL=%{GREEDYDATA:openvpn.client.ssl.version}'
         on_failure:
             - rename:
                 description: We do not know the Key therfore leave content unmatched.
@@ -66,59 +75,81 @@ processors:
                 target_field: openvpn.client.peer_info
 
     - grok:
-        description: Grok specific openvpn client messages.
+        description: Grok specific openvpn chiper messages.
         tag: grok-specific-messages
-        field: _temp.vpn_server_message
+        field: _temp.event.message
         ignore_missing: true
-        ignore_failure: true
         patterns:
-            - "Outgoing Data Channel: Cipher '%{GREEDYDATA:openvpn.server.cipher}' initialized with %{INT} bit key"
-            - "Outgoing Control Channel Encryption: Cipher '%{GREEDYDATA:openvpn.server.cipher}' initialized with %{INT} bit key"
-            - "Outgoing Control Channel Encryption: Using 256 bit message hash '%{GREEDYDATA:openvpn.server.hash}' for HMAC authentication"
-            - "Incoming Data Channel: Cipher '%{GREEDYDATA:openvpn.server.cipher}' initialized with %{INT} bit key"
-            - "Incoming Control Channel Encryption: Cipher '%{GREEDYDATA:openvpn.server.cipher}' initialized with %{INT} bit key"
-            - "Incoming Control Channel Encryption: Using %{INT} bit message hash '%{GREEDYDATA:openvpn.server.hash}' for HMAC authentication"
+            - "Cipher '%{GREEDYDATA:openvpn.cipher}' initialized with %{INT} bit key"
+            - "Using %{INT} bit message hash '%{GREEDYDATA:openvpn.hash}' for HMAC authentication"
+        if: ctx.openvpn?.event?.type?.name != null && ['Outgoing Data Channel', 'Outgoing Control Channel Encryption', 'Incoming Data Channel', 'Incoming Control Channel Encryption'].contains(ctx.openvpn.event.type.name)
+
 
     - grok:
-        description: Grok specific openvpn server messages.
+        description: Grok specific openvpn chiper messages.
         tag: grok-specific-messages
-        field: _temp.vpn_client_message 
+        field: _temp.event.message
+        ignore_missing: true
+        patterns:
+            - "TLSv%{GREEDYDATA}, cipher TLSv%{GREEDYDATA:tls.version} %{GREEDYDATA:tls.cipher}, %{GREEDYDATA}, curve: %{GREEDYDATA:tls.curve}"
+        if: ctx.openvpn?.event?.type?.name != null && ['Control Channel'].contains(ctx.openvpn.event.type.name)
+
+
+    - grok:
+        description: Grok specific openvpn client control messages.
+        field: _temp.event.message
+        tag: grok-specific-messages
+        ignore_missing: true
+        patterns:
+            - "^'%{GREEDYDATA:openvpn.client.control.config}' \\(status=%{INT:openvpn.client.control.status}\\)$"
+        if: ctx.openvpn?.event?.type?.name != null && ctx.openvpn.event.type.name.contains('SENT CONTROL')
+
+
+    - grok:
+        description: Grok specific openvpn TLS messages.
+        field: _temp.event.message
+        tag: grok-specific-messages
         ignore_missing: true
         ignore_failure: true
         pattern_definitions:
             SOURCE: '%{IP:source.address}:%{NONNEGINT:source.port:long}'
         patterns:
-            - "VERIFY %{GREEDYDATA}: depth=%{INT}, CN=%{GREEDYDATA:user.name}"
-            - 'MULTI_sva: pool returned IPv4=(%{IP:source.nat.ip}|%{GREEDYDATA}),%{SPACE}IPv6=(%{IP:source.nat.ip}|%{GREEDYDATA})'
-            - 'MULTI: Learn: %{IP:source.nat.ip} -> %{USERNAME:user.name}/%{SOURCE}'
-            - 'MULTI: primary virtual IP for %{USERNAME:user.name}/%{SOURCE}: %{IP:source.nat.ip}'
-            - "Outgoing Data Channel: Cipher '%{GREEDYDATA:openvpn.client.cipher}' initialized with %{INT} bit key"
-            - "Outgoing Control Channel Encryption: Cipher '%{GREEDYDATA:openvpn.client.cipher}' initialized with %{INT} bit key"
-            - "Outgoing Control Channel Encryption: Using %{INT} bit message hash '%{GREEDYDATA:openvpn.client.hash}' for HMAC authentication"
-            - "Incoming Data Channel: Cipher '%{GREEDYDATA:openvpn.client.cipher}' initialized with %{INT} bit key"
-            - "Incoming Control Channel Encryption: Cipher '%{GREEDYDATA:openvpn.client.cipher}' initialized with %{INT} bit key"
-            - "Incoming Control Channel Encryption: Using %{INT} bit message hash '%{GREEDYDATA:openvpn.client.hash}' for HMAC authentication"
-            - "Control Channel: TLSv%{GREEDYDATA}, cipher TLSv%{GREEDYDATA:tls.version} %{GREEDYDATA:tls.cipher}, %{GREEDYDATA}, curve: %{GREEDYDATA:tls.curve}"
-            - "[%{USERNAME:user.name}] Peer Connection Initiated with [AF_INET]%{SOURCE}"
-            - "OpenSSL: error:1417C0C7:SSL routines:tls_process_client_certificate:peer did not return a certificate"
-            - "SENT CONTROL \\[%{USERNAME}\\]: '%{GREEDYDATA:openvpn.client.control}' \\(status=%{INT}\\)"
-            - "SIGTERM[soft,remote-exit] received, client-instance exiting"
-            - "TLS: Initial packet from \\[AF_INET\\]%{SOURCE}, sid=%{BASE16NUM:openvpn.client.session.id}"    
+            - "^Initial packet from \\[AF_INET\\]%{SOURCE}, sid=%{BASE16NUM:openvpn.client.session.id}"
+        if: ctx.openvpn?.event?.type?.name != null && ['TLS'].contains(ctx.openvpn.event.type.name)
 
-    - set:
-        field: message
-        value: "{{_temp.vpn_message}}"
-        ignore_empty_value: true
+    - grok:
+        description: Grok specific openvpn verify messages.
+        field: _temp.event.message
+        tag: grok-specific-messages
+        ignore_missing: true
+        patterns:
+            - "^depth=%{INT}, CN=%{GREEDYDATA:user.name}$"
+        if: ctx.openvpn?.event?.type?.name != null && ctx.openvpn.event.type.name.contains('VERIFY')
+
+
+    - grok:
+        description: Grok specific openvpn multi messages.
+        field: _temp.event.message
+        tag: grok-specific-messages
+        ignore_missing: true
+        ignore_failure: true
+        pattern_definitions:
+            SOURCE: '%{IP:source.address}:%{NONNEGINT:source.port:long}'
+        patterns:
+            - 'pool returned IPv4=(%{IP:source.nat.ip}|%{GREEDYDATA}),%{SPACE}IPv6=(%{IP:source.nat.ip}|%{GREEDYDATA})'
+            - 'Learn: %{IP:source.nat.ip} -> %{USERNAME:user.name}/%{SOURCE}'
+            - 'primary virtual IP for %{USERNAME:user.name}/%{SOURCE}: %{IP:source.nat.ip}'
+        if: ctx.openvpn?.event?.type?.name != null && ctx.openvpn.event.type.name.contains('MULTI')
 
     - date:
         if: ctx.event?.timezone == null
         field: _temp.timestamp
         target_field: '@timestamp'
         formats:
+            - yyyy-MM-dd HH:mm:ss
             - MMM  d HH:mm:ss
             - MMM dd HH:mm:ss
             - ISO8601
-            - yyyy-MM-dd HH:mm:ss
         on_failure:
             - append:
                 field: error.message
@@ -129,10 +160,10 @@ processors:
         field: _temp.timestamp
         target_field: '@timestamp'
         formats:
+            - yyyy-MM-dd HH:mm:ss
             - MMM  d HH:mm:ss
             - MMM dd HH:mm:ss
             - ISO8601
-            - yyyy-MM-dd HH:mm:ss
         timezone: '{{{ event.timezone }}}'
         on_failure:
             - append:
@@ -209,6 +240,16 @@ processors:
         field: source.as.organization_name
         target_field: source.as.organization.name
         ignore_missing: true
+
+    - set:
+        field: source.ip
+        value: "{{source.address}}"
+        ignore_empty_value: true
+
+    - set:
+        field: openvpn.event.type.name
+        value: "SENT CONTROL"
+        if: ctx.openvpn?.event?.type?.name != null && ctx.openvpn.event.type.name.contains('SENT CONTROL')
 
     - remove:
         field:
