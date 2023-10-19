@@ -66,7 +66,9 @@
         - name: gateway
           description: "Used Gateway of the openvpn Server."
           type: ip
-    
+        - name: mtu
+          description: "The MTU set on the openvpn server Interface."
+          type: keyword
     - name: cipher
       description: "Used Cipher for the connection."
       type: keyword
@@ -75,4 +77,7 @@
       type: keyword
     - name: event.type.name
       description: "OpenVPN event type."
+      type: keyword
+    - name: exit.code
+      description: "Reaseon of the session close"
       type: keyword

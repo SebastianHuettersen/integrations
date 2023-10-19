@@ -6,6 +6,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 OpenVPN 2.5.1 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on May 14 2021"
             },
             "message": "OpenVPN 2.5.1 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on May 14 2021",
@@ -19,6 +20,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 library versions: OpenSSL 1.1.1w  11 Sep 2023, LZO 2.10"
             },
             "message": "library versions: OpenSSL 1.1.1w  11 Sep 2023, LZO 2.10",
@@ -39,6 +41,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 net_route_v4_best_gw query: dst 0.0.0.0"
             },
             "message": "net_route_v4_best_gw query: dst 0.0.0.0",
@@ -59,7 +62,17 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:49:29 net_route_v4_best_gw result: via 10.20.10.1 dev enp1s0"
+                "category": [
+                    "configuration",
+                    "network"
+                ],
+                "kind": "event",
+                "original": "2023-10-14 16:49:29 net_route_v4_best_gw result: via 10.20.10.1 dev enp1s0",
+                "outcome": "success",
+                "type": [
+                    "creation",
+                    "info"
+                ]
             },
             "interface": {
                 "name": "enp1s0"
@@ -85,6 +98,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 CRL: loaded 1 CRLs from file crl.pem"
             },
             "message": "CRL: loaded 1 CRLs from file crl.pem",
@@ -105,6 +119,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 ECDH curve prime256v1 added"
             },
             "message": "ECDH curve prime256v1 added",
@@ -118,6 +133,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 Outgoing Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key"
             },
             "message": "Outgoing Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key",
@@ -139,6 +155,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 Outgoing Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication"
             },
             "message": "Outgoing Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication",
@@ -160,6 +177,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 Incoming Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key"
             },
             "message": "Incoming Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key",
@@ -181,6 +199,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 Incoming Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication"
             },
             "message": "Incoming Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication",
@@ -202,6 +221,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 TUN/TAP device tun0 opened"
             },
             "message": "TUN/TAP device tun0 opened",
@@ -215,7 +235,11 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 net_iface_mtu_set: mtu 1500 for tun0"
+            },
+            "interface": {
+                "name": "tun0"
             },
             "message": "net_iface_mtu_set: mtu 1500 for tun0",
             "openvpn": {
@@ -223,6 +247,9 @@
                     "type": {
                         "name": "net_iface_mtu_set"
                     }
+                },
+                "server": {
+                    "mtu": "1500"
                 }
             },
             "tags": [
@@ -235,7 +262,18 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:49:29 net_iface_up: set tun0 up"
+                "category": [
+                    "network"
+                ],
+                "kind": "event",
+                "original": "2023-10-14 16:49:29 net_iface_up: set tun0 up",
+                "outcome": "success",
+                "type": [
+                    "info"
+                ]
+            },
+            "interface": {
+                "name": "tun0"
             },
             "message": "net_iface_up: set tun0 up",
             "openvpn": {
@@ -255,7 +293,18 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:49:29 net_addr_v4_add: 10.8.0.1/24 dev tun0"
+                "category": [
+                    "network"
+                ],
+                "kind": "event",
+                "original": "2023-10-14 16:49:29 net_addr_v4_add: 10.8.0.1/24 dev tun0",
+                "outcome": "success",
+                "type": [
+                    "info"
+                ]
+            },
+            "interface": {
+                "name": "tun0"
             },
             "message": "net_addr_v4_add: 10.8.0.1/24 dev tun0",
             "openvpn": {
@@ -275,6 +324,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 Could not determine IPv4/IPv6 protocol. Using AF_INET"
             },
             "message": "Could not determine IPv4/IPv6 protocol. Using AF_INET",
@@ -288,6 +338,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 Socket Buffers: R=[212992->212992] S=[212992->212992]"
             },
             "message": "Socket Buffers: R=[212992->212992] S=[212992->212992]",
@@ -308,6 +359,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 UDPv4 link local (bound): [AF_INET][undef]:1194"
             },
             "message": "UDPv4 link local (bound): [AF_INET][undef]:1194",
@@ -328,6 +380,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 UDPv4 link remote: [AF_UNSPEC]"
             },
             "message": "UDPv4 link remote: [AF_UNSPEC]",
@@ -348,6 +401,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 GID set to nogroup"
             },
             "message": "GID set to nogroup",
@@ -361,6 +415,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 UID set to nobody"
             },
             "message": "UID set to nobody",
@@ -374,6 +429,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 MULTI: multi_init called, r=256 v=256"
             },
             "message": "MULTI: multi_init called, r=256 v=256",
@@ -394,7 +450,15 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:49:29 IFCONFIG POOL IPv4: base=10.8.0.2 size=252"
+                "category": [
+                    "network"
+                ],
+                "kind": "event",
+                "original": "2023-10-14 16:49:29 IFCONFIG POOL IPv4: base=10.8.0.2 size=252",
+                "outcome": "success",
+                "type": [
+                    "info"
+                ]
             },
             "message": "IFCONFIG POOL IPv4: base=10.8.0.2 size=252",
             "openvpn": {
@@ -414,6 +478,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 ifconfig_pool_read(), in='test,10.8.0.2,'"
             },
             "message": "ifconfig_pool_read(), in='test,10.8.0.2,'",
@@ -427,6 +492,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 succeeded -> ifconfig_pool_set(hand=0)"
             },
             "message": "succeeded -> ifconfig_pool_set(hand=0)",
@@ -440,6 +506,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 IFCONFIG POOL LIST"
             },
             "message": "IFCONFIG POOL LIST",
@@ -453,6 +520,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 test,10.8.0.2,"
             },
             "message": "test,10.8.0.2,",
@@ -466,6 +534,7 @@
                 "version": "8.10.0"
             },
             "event": {
+                "kind": "event",
                 "original": "2023-10-14 16:49:29 Initialization Sequence Completed"
             },
             "message": "Initialization Sequence Completed",
@@ -479,10 +548,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:49:39 81.2.69.142:50075 Outgoing Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key",
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:49:39 81.2.69.142:50075 Outgoing Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key"
             },
             "message": "Outgoing Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key",
             "openvpn": {
@@ -520,10 +587,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:49:39 81.2.69.142:50075 Outgoing Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication",
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:49:39 81.2.69.142:50075 Outgoing Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication"
             },
             "message": "Outgoing Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication",
             "openvpn": {
@@ -561,10 +626,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:49:39 81.2.69.142:50075 Incoming Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key",
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:49:39 81.2.69.142:50075 Incoming Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key"
             },
             "message": "Incoming Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key",
             "openvpn": {
@@ -602,10 +665,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:49:39 81.2.69.142:50075 Incoming Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication",
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:49:39 81.2.69.142:50075 Incoming Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication"
             },
             "message": "Incoming Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication",
             "openvpn": {
@@ -643,10 +704,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:49:39 81.2.69.142:50075 TLS: Initial packet from [AF_INET]81.2.69.142:50075, sid=549698bd b232e312",
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:49:39 81.2.69.142:50075 TLS: Initial packet from [AF_INET]81.2.69.142:50075, sid=549698bd b232e312"
             },
             "message": "TLS: Initial packet from [AF_INET]81.2.69.142:50075, sid=549698bd b232e312",
             "openvpn": {
@@ -688,9 +747,16 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "iam",
+                    "authentication"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 81.2.69.142:50075 VERIFY OK: depth=0, CN=test",
+                "outcome": "success",
                 "type": [
-                    "connection"
+                    "user",
+                    "start"
                 ]
             },
             "message": "VERIFY OK: depth=0, CN=test",
@@ -731,9 +797,14 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "configuration"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 81.2.69.142:50075 peer info: IV_VER=2.6.3",
+                "outcome": "success",
                 "type": [
-                    "connection"
+                    "info"
                 ]
             },
             "message": "peer info: IV_VER=2.6.3",
@@ -774,9 +845,14 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "configuration"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 81.2.69.142:50075 peer info: IV_PLAT=linux",
+                "outcome": "success",
                 "type": [
-                    "connection"
+                    "info"
                 ]
             },
             "message": "peer info: IV_PLAT=linux",
@@ -819,9 +895,14 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "configuration"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 81.2.69.142:50075 peer info: IV_TCPNL=1",
+                "outcome": "success",
                 "type": [
-                    "connection"
+                    "info"
                 ]
             },
             "message": "peer info: IV_TCPNL=1",
@@ -862,9 +943,14 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "configuration"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 81.2.69.142:50075 peer info: IV_MTU=1600",
+                "outcome": "success",
                 "type": [
-                    "connection"
+                    "info"
                 ]
             },
             "message": "peer info: IV_MTU=1600",
@@ -905,9 +991,14 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "configuration"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 81.2.69.142:50075 peer info: IV_CIPHERS=AES-128-GCM",
+                "outcome": "success",
                 "type": [
-                    "connection"
+                    "info"
                 ]
             },
             "message": "peer info: IV_CIPHERS=AES-128-GCM",
@@ -948,9 +1039,14 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "configuration"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 81.2.69.142:50075 peer info: IV_PROTO=990",
+                "outcome": "success",
                 "type": [
-                    "connection"
+                    "info"
                 ]
             },
             "message": "peer info: IV_PROTO=990",
@@ -991,9 +1087,14 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "configuration"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 81.2.69.142:50075 peer info: IV_LZO_STUB=1",
+                "outcome": "success",
                 "type": [
-                    "connection"
+                    "info"
                 ]
             },
             "message": "peer info: IV_LZO_STUB=1",
@@ -1034,9 +1135,14 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "configuration"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 81.2.69.142:50075 peer info: IV_COMP_STUB=1",
+                "outcome": "success",
                 "type": [
-                    "connection"
+                    "info"
                 ]
             },
             "message": "peer info: IV_COMP_STUB=1",
@@ -1077,9 +1183,14 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "configuration"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 81.2.69.142:50075 peer info: IV_COMP_STUBv2=1",
+                "outcome": "success",
                 "type": [
-                    "connection"
+                    "info"
                 ]
             },
             "message": "peer info: IV_COMP_STUBv2=1",
@@ -1120,9 +1231,14 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "configuration"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 81.2.69.142:50075 Control Channel: TLSv1.3, cipher TLSv1.3 TLS_AES_256_GCM_SHA384, 256 bit EC, curve: prime256v1",
+                "outcome": "success",
                 "type": [
-                    "connection"
+                    "info"
                 ]
             },
             "message": "Control Channel: TLSv1.3, cipher TLSv1.3 TLS_AES_256_GCM_SHA384, 256 bit EC, curve: prime256v1",
@@ -1165,13 +1281,24 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "session"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 81.2.69.142:50075 [test] Peer Connection Initiated with [AF_INET]81.2.69.142:50075",
+                "outcome": "success",
                 "type": [
-                    "connection",
                     "start"
                 ]
             },
             "message": "[test] Peer Connection Initiated with [AF_INET]81.2.69.142:50075",
+            "openvpn": {
+                "event": {
+                    "type": {
+                        "name": "Peer Connection Initiated"
+                    }
+                }
+            },
             "source": {
                 "address": "81.2.69.142",
                 "geo": {
@@ -1199,10 +1326,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:49:39 test/81.2.69.142:50075 MULTI_sva: pool returned IPv4=10.8.0.2, IPv6=(Not enabled)",
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:49:39 test/81.2.69.142:50075 MULTI_sva: pool returned IPv4=10.8.0.2, IPv6=(Not enabled)"
             },
             "message": "MULTI_sva: pool returned IPv4=10.8.0.2, IPv6=(Not enabled)",
             "openvpn": {
@@ -1245,10 +1370,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:49:39 test/81.2.69.142:50075 MULTI: Learn: 10.8.0.2 -> test/81.2.69.142:50075",
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:49:39 test/81.2.69.142:50075 MULTI: Learn: 10.8.0.2 -> test/81.2.69.142:50075"
             },
             "message": "MULTI: Learn: 10.8.0.2 -> test/81.2.69.142:50075",
             "openvpn": {
@@ -1291,10 +1414,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:49:39 test/81.2.69.142:50075 MULTI: primary virtual IP for test/81.2.69.142:50075: 10.8.0.2",
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:49:39 test/81.2.69.142:50075 MULTI: primary virtual IP for test/81.2.69.142:50075: 10.8.0.2"
             },
             "message": "MULTI: primary virtual IP for test/81.2.69.142:50075: 10.8.0.2",
             "openvpn": {
@@ -1337,9 +1458,14 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "configuration"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 test/81.2.69.142:50075 Outgoing Data Channel: Cipher 'AES-128-GCM' initialized with 128 bit key",
+                "outcome": "success",
                 "type": [
-                    "connection"
+                    "info"
                 ]
             },
             "message": "Outgoing Data Channel: Cipher 'AES-128-GCM' initialized with 128 bit key",
@@ -1381,9 +1507,14 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "configuration"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 test/81.2.69.142:50075 Incoming Data Channel: Cipher 'AES-128-GCM' initialized with 128 bit key",
+                "outcome": "success",
                 "type": [
-                    "connection"
+                    "info"
                 ]
             },
             "message": "Incoming Data Channel: Cipher 'AES-128-GCM' initialized with 128 bit key",
@@ -1425,9 +1556,14 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "configuration"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:49:39 test/81.2.69.142:50075 SENT CONTROL [test]: 'PUSH_REPLY,dhcp-option DNS 10.20.10.1,redirect-gateway def1 bypass-dhcp,route-gateway 10.8.0.1,topology subnet,ping 10,ping-restart 120,ifconfig 10.8.0.2 255.255.255.0,peer-id 0,cipher AES-128-GCM' (status=1)",
+                "outcome": "success",
                 "type": [
-                    "connection"
+                    "creation"
                 ]
             },
             "message": "SENT CONTROL [test]: 'PUSH_REPLY,dhcp-option DNS 10.20.10.1,redirect-gateway def1 bypass-dhcp,route-gateway 10.8.0.1,topology subnet,ping 10,ping-restart 120,ifconfig 10.8.0.2 255.255.255.0,peer-id 0,cipher AES-128-GCM' (status=1)",
@@ -1474,13 +1610,27 @@
                 "version": "8.10.0"
             },
             "event": {
+                "category": [
+                    "session"
+                ],
+                "kind": "event",
                 "original": "2023-10-14 16:50:14 test/81.2.69.142:50075 SIGTERM[soft,remote-exit] received, client-instance exiting",
+                "outcome": "success",
                 "type": [
-                    "connection",
                     "end"
                 ]
             },
             "message": "SIGTERM[soft,remote-exit] received, client-instance exiting",
+            "openvpn": {
+                "event": {
+                    "type": {
+                        "name": "SIGTERM"
+                    }
+                },
+                "exit": {
+                    "code": "remote-exit"
+                }
+            },
             "source": {
                 "address": "81.2.69.142",
                 "geo": {
@@ -1511,10 +1661,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:51:48 81.2.69.142:45017 Outgoing Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key",
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:51:48 81.2.69.142:45017 Outgoing Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key"
             },
             "message": "Outgoing Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key",
             "openvpn": {
@@ -1552,10 +1700,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:51:48 81.2.69.142:45017 Outgoing Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication",
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:51:48 81.2.69.142:45017 Outgoing Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication"
             },
             "message": "Outgoing Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication",
             "openvpn": {
@@ -1593,10 +1739,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:51:48 81.2.69.142:45017 Incoming Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key",
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:51:48 81.2.69.142:45017 Incoming Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key"
             },
             "message": "Incoming Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key",
             "openvpn": {
@@ -1634,10 +1778,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:51:48 81.2.69.142:45017 Incoming Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication",
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:51:48 81.2.69.142:45017 Incoming Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication"
             },
             "message": "Incoming Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication",
             "openvpn": {
@@ -1675,13 +1817,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:51:48 81.2.69.142:45017 OpenSSL: error:1417C0C7:SSL routines:tls_process_client_certificate:peer did not return a certificate",
-                "outcome": [
-                    "failure"
-                ],
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:51:48 81.2.69.142:45017 OpenSSL: error:1417C0C7:SSL routines:tls_process_client_certificate:peer did not return a certificate"
             },
             "message": "OpenSSL: error:1417C0C7:SSL routines:tls_process_client_certificate:peer did not return a certificate",
             "openvpn": {
@@ -1718,13 +1855,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:51:48 81.2.69.142:45017 TLS_ERROR: BIO read tls_read_plaintext error",
-                "outcome": [
-                    "failure"
-                ],
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:51:48 81.2.69.142:45017 TLS_ERROR: BIO read tls_read_plaintext error"
             },
             "message": "TLS_ERROR: BIO read tls_read_plaintext error",
             "openvpn": {
@@ -1761,13 +1893,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:51:48 81.2.69.142:45017 TLS Error: TLS object -> incoming plaintext read error",
-                "outcome": [
-                    "failure"
-                ],
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:51:48 81.2.69.142:45017 TLS Error: TLS object -> incoming plaintext read error"
             },
             "message": "TLS Error: TLS object -> incoming plaintext read error",
             "openvpn": {
@@ -1804,13 +1931,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:51:48 81.2.69.142:45017 TLS Error: TLS handshake failed",
-                "outcome": [
-                    "failure"
-                ],
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:51:48 81.2.69.142:45017 TLS Error: TLS handshake failed"
             },
             "message": "TLS Error: TLS handshake failed",
             "openvpn": {
@@ -1847,15 +1969,28 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:51:48 81.2.69.142:45017 SIGUSR1[soft,tls-error] received, client-instance restarting",
-                "outcome": [
-                    "failure"
+                "category": [
+                    "session",
+                    "authentication"
                 ],
+                "kind": "event",
+                "original": "2023-10-14 16:51:48 81.2.69.142:45017 SIGUSR1[soft,tls-error] received, client-instance restarting",
+                "outcome": "failure",
                 "type": [
-                    "connection"
+                    "end"
                 ]
             },
             "message": "SIGUSR1[soft,tls-error] received, client-instance restarting",
+            "openvpn": {
+                "event": {
+                    "type": {
+                        "name": "SIGUSR1"
+                    }
+                },
+                "exit": {
+                    "code": "tls-error"
+                }
+            },
             "source": {
                 "address": "81.2.69.142",
                 "geo": {
@@ -1883,10 +2018,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:52:33 tls-crypt unwrap error: packet authentication failed",
-                "outcome": [
-                    "failure"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:52:33 tls-crypt unwrap error: packet authentication failed"
             },
             "message": "tls-crypt unwrap error: packet authentication failed",
             "openvpn": {
@@ -1906,16 +2039,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "category": [
-                    "authentication"
-                ],
-                "original": "2023-10-14 16:52:33 TLS Error: tls-crypt unwrapping failed from [AF_INET]81.2.69.142:48730",
-                "outcome": [
-                    "failure"
-                ],
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:52:33 TLS Error: tls-crypt unwrapping failed from [AF_INET]81.2.69.142:48730"
             },
             "message": "TLS Error: tls-crypt unwrapping failed from [AF_INET]81.2.69.142:48730",
             "openvpn": {
@@ -1952,10 +2077,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:52:35 tls-crypt unwrap error: packet authentication failed",
-                "outcome": [
-                    "failure"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:52:35 tls-crypt unwrap error: packet authentication failed"
             },
             "message": "tls-crypt unwrap error: packet authentication failed",
             "openvpn": {
@@ -1975,16 +2098,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "category": [
-                    "authentication"
-                ],
-                "original": "2023-10-14 16:52:35 TLS Error: tls-crypt unwrapping failed from [AF_INET]81.2.69.142:48730",
-                "outcome": [
-                    "failure"
-                ],
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:52:35 TLS Error: tls-crypt unwrapping failed from [AF_INET]81.2.69.142:48730"
             },
             "message": "TLS Error: tls-crypt unwrapping failed from [AF_INET]81.2.69.142:48730",
             "openvpn": {
@@ -2021,10 +2136,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "original": "2023-10-14 16:52:39 tls-crypt unwrap error: packet authentication failed",
-                "outcome": [
-                    "failure"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:52:39 tls-crypt unwrap error: packet authentication failed"
             },
             "message": "tls-crypt unwrap error: packet authentication failed",
             "openvpn": {
@@ -2044,16 +2157,8 @@
                 "version": "8.10.0"
             },
             "event": {
-                "category": [
-                    "authentication"
-                ],
-                "original": "2023-10-14 16:52:39 TLS Error: tls-crypt unwrapping failed from [AF_INET]81.2.69.142:48730",
-                "outcome": [
-                    "failure"
-                ],
-                "type": [
-                    "connection"
-                ]
+                "kind": "event",
+                "original": "2023-10-14 16:52:39 TLS Error: tls-crypt unwrapping failed from [AF_INET]81.2.69.142:48730"
             },
             "message": "TLS Error: tls-crypt unwrapping failed from [AF_INET]81.2.69.142:48730",
             "openvpn": {

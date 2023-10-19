@@ -15,4 +15,4 @@
   description: Name of the module this data is coming from.
   value: openvpn
 - name: message
-  type: keyword
+  type: match_only_text

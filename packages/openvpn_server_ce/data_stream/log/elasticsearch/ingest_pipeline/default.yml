@@ -16,14 +16,13 @@ processors:
         tag: grok-message-header
         field: event.original
         pattern_definitions:
-            GREEDYMULTILINE: '(.|\n)*'
             TIMESTAMP: (?:%{TIMESTAMP_ISO8601}|%{SYSLOGTIMESTAMP})
             SOURCE: '%{IP:source.address}:%{NONNEGINT:source.port:long}'
             
         patterns:
-            - '^%{TIMESTAMP:_temp.timestamp} %{USERNAME:user.name}/%{SOURCE} %{GREEDYMULTILINE:message}$'
-            - '^%{TIMESTAMP:_temp.timestamp} %{SOURCE} %{GREEDYMULTILINE:message}$'
-            - '^%{TIMESTAMP:_temp.timestamp} %{GREEDYMULTILINE:message}$'
+            - '^%{TIMESTAMP:_temp.timestamp} %{USERNAME:user.name}/%{SOURCE} %{GREEDYDATA:message}$'
+            - '^%{TIMESTAMP:_temp.timestamp} %{SOURCE} %{GREEDYDATA:message}$'
+            - '^%{TIMESTAMP:_temp.timestamp} %{GREEDYDATA:message}$'
     
     - grok:
         description: Grok for extraction event type name.
@@ -33,26 +32,17 @@ processors:
         ignore_failure: true
         pattern_definitions:
             EVENTACTION: '([^:]+)'
+            SIGNAL: 'SIGTERM|SIGUSR1'
+            CONINIT: 'Peer Connection Initiated'
         patterns:
             - '^%{EVENTACTION:openvpn.event.type.name}: %{GREEDYDATA:_temp.event.message}$'
-
-    - grok:
-        description: Grok specific openvpn messages.
-        tag: grok-specific-messages
-        field: message
-        ignore_missing: true
-        ignore_failure: true
-        pattern_definitions:
-            SOURCE: '%{IP:source.address}:%{NONNEGINT:source.port:long}'
-        patterns:
-            - '^peer%{SPACE}info:%{SPACE}%{GREEDYDATA:_temp.client.peer_info}$'
-            - '^net_route_v4_best_gw result: via %{IP:openvpn.server.gateway} dev %{WORD:interface.name}$'
-            - '\[%{NOTSPACE}\]%{SOURCE}$'
+            - '^%{SIGNAL:openvpn.event.type.name}\[%{WORD},%{DATA:openvpn.exit.code}\]'
+            - '^\[%{USERNAME}\] %{CONINIT:openvpn.event.type.name}'
 
     - grok:
         description: Grok specific openvpn peer_info messages.
         tag: grok-specific-messages
-        field: _temp.client.peer_info
+        field: _temp.event.message
         ignore_missing: true
         patterns:
             - '^IV_VER=%{GREEDYDATA:openvpn.client.version}'
@@ -68,10 +58,11 @@ processors:
             - '^IV_SSO=%{GREEDYDATA:openvpn.client.sso}'
             - '^IV_HWADDR=%{GREEDYDATA:openvpn.client.id}'
             - '^IV_SSL=%{GREEDYDATA:openvpn.client.ssl.version}'
+        if: ctx.openvpn?.event?.type?.name != null && ['peer info'].contains(ctx.openvpn.event.type.name) 
         on_failure:
             - rename:
                 description: We do not know the Key therfore leave content unmatched.
-                field: _temp.client.peer_info
+                field: _temp.event.message
                 target_field: openvpn.client.peer_info
 
     - grok:
@@ -80,8 +71,8 @@ processors:
         field: _temp.event.message
         ignore_missing: true
         patterns:
-            - "Cipher '%{GREEDYDATA:openvpn.cipher}' initialized with %{INT} bit key"
-            - "Using %{INT} bit message hash '%{GREEDYDATA:openvpn.hash}' for HMAC authentication"
+            - "^Cipher '%{GREEDYDATA:openvpn.cipher}' initialized with %{INT} bit key"
+            - "^Using %{INT} bit message hash '%{GREEDYDATA:openvpn.hash}' for HMAC authentication"
         if: ctx.openvpn?.event?.type?.name != null && ['Outgoing Data Channel', 'Outgoing Control Channel Encryption', 'Incoming Data Channel', 'Incoming Control Channel Encryption'].contains(ctx.openvpn.event.type.name)
 
 
@@ -91,7 +82,7 @@ processors:
         field: _temp.event.message
         ignore_missing: true
         patterns:
-            - "TLSv%{GREEDYDATA}, cipher TLSv%{GREEDYDATA:tls.version} %{GREEDYDATA:tls.cipher}, %{GREEDYDATA}, curve: %{GREEDYDATA:tls.curve}"
+            - "^TLSv%{GREEDYDATA}, cipher TLSv%{GREEDYDATA:tls.version} %{GREEDYDATA:tls.cipher}, %{GREEDYDATA}, curve: %{GREEDYDATA:tls.curve}"
         if: ctx.openvpn?.event?.type?.name != null && ['Control Channel'].contains(ctx.openvpn.event.type.name)
 
 
@@ -115,7 +106,8 @@ processors:
             SOURCE: '%{IP:source.address}:%{NONNEGINT:source.port:long}'
         patterns:
             - "^Initial packet from \\[AF_INET\\]%{SOURCE}, sid=%{BASE16NUM:openvpn.client.session.id}"
-        if: ctx.openvpn?.event?.type?.name != null && ['TLS'].contains(ctx.openvpn.event.type.name)
+            - '\[%{NOTSPACE}\]%{SOURCE}$'
+        if: ctx.openvpn?.event?.type?.name != null && ctx.openvpn.event.type.name.contains('TLS')
 
     - grok:
         description: Grok specific openvpn verify messages.
@@ -136,10 +128,26 @@ processors:
         pattern_definitions:
             SOURCE: '%{IP:source.address}:%{NONNEGINT:source.port:long}'
         patterns:
-            - 'pool returned IPv4=(%{IP:source.nat.ip}|%{GREEDYDATA}),%{SPACE}IPv6=(%{IP:source.nat.ip}|%{GREEDYDATA})'
-            - 'Learn: %{IP:source.nat.ip} -> %{USERNAME:user.name}/%{SOURCE}'
-            - 'primary virtual IP for %{USERNAME:user.name}/%{SOURCE}: %{IP:source.nat.ip}'
+            - '^pool returned IPv4=(%{IP:source.nat.ip}|%{GREEDYDATA}),%{SPACE}IPv6=(%{IP:source.nat.ip}|%{GREEDYDATA})'
+            - '^Learn: %{IP:source.nat.ip} -> %{USERNAME:user.name}/%{SOURCE}'
+            - '^primary virtual IP for %{USERNAME:user.name}/%{SOURCE}: %{IP:source.nat.ip}'
+            - '^multi_init called, r=%{INT} v=%{INT}$'
         if: ctx.openvpn?.event?.type?.name != null && ctx.openvpn.event.type.name.contains('MULTI')
+
+    - grok:
+        description: Grok specific openvpn network configuration messages.
+        field: _temp.event.message
+        tag: grok-specific-messages
+        ignore_missing: true
+        ignore_failure: true
+        pattern_definitions:
+            INTERFACE_STATUS: 'up|down'
+        patterns:
+            - '^mtu %{GREEDYDATA:openvpn.server.mtu} for %{WORD:interface.name}$'
+            - '^set %{WORD:interface.name} %{INTERFACE_STATUS}$'
+            - '^via %{IP:openvpn.server.gateway} dev %{WORD:interface.name}$'
+            - '^%{IP}/%{INT} dev %{WORD:interface.name}$'
+        if: ctx.openvpn?.event?.type?.name != null && ctx.openvpn.event.type.name.contains('net_')
 
     - date:
         if: ctx.event?.timezone == null
@@ -169,48 +177,6 @@ processors:
             - append:
                 field: error.message
                 value: '{{{ _ingest.on_failure_message }}}'
-
-    - append:
-        field: event.category
-        value: authentication
-        allow_duplicates: false
-        if: ctx._temp?.vpn_client_message != null && ctx._temp?.vpn_client_message.contains('VERIFY')
-
-    - append:
-        field: event.category
-        value: authentication
-        allow_duplicates: false
-        if: ctx.message != null && ctx.message.contains('tls-crypt unwrapping failed')
-
-    - append:
-        field: event.outcome
-        value: success
-        allow_duplicates: false
-        if: ctx._temp?.vpn_client_message != null && ctx._temp?.vpn_client_message.contains('OK') && ctx.event?.category.contains('authentication')
-
-    - append:
-        field: event.type
-        value: connection
-        allow_duplicates: false
-        if: ctx.source?.address != null
-
-    - append:
-        field: event.outcome
-        value: failure
-        allow_duplicates: false
-        if: ctx.event.original.toLowerCase().contains('error') || ctx.event.original.toLowerCase().contains('not auth') 
-
-    - append:
-        field: event.type
-        value: start
-        allow_duplicates: false
-        if: ctx.event.original.toLowerCase().contains('peer connection initiated')
-
-    - append:
-        field: event.type
-        value: end
-        allow_duplicates: false
-        if: ctx.event.original.toLowerCase().contains('client-instance exiting')
 
     - set:
         field: source.ip
@@ -250,6 +216,113 @@ processors:
         field: openvpn.event.type.name
         value: "SENT CONTROL"
         if: ctx.openvpn?.event?.type?.name != null && ctx.openvpn.event.type.name.contains('SENT CONTROL')
+
+    - script:
+        lang: painless
+        ignore_failure: false
+        description: Set event category, type, outcome and type name.
+        params:
+            'VERIFY OK':
+                category:
+                    - iam
+                    - authentication
+                type:
+                    - user
+                    - start
+                outcome: success
+            'VERIFY ERROR':
+                category:
+                    - authentication
+                type:
+                    - end
+                outcome: failure  
+            'Peer Connection Initiated':
+                category:
+                    - session
+                type:
+                    - start
+                outcome: success
+            'SIGUSR1':
+                category:
+                    - session
+                    - authentication
+                type:
+                    - end
+                outcome: failure
+            'SIGTERM':
+                category:
+                    - session
+                type:
+                    - end
+                outcome: success
+            'net_route_v4_best_gw result':
+                category:
+                    - configuration
+                    - network
+                type:
+                    - creation
+                    - info
+                outcome: success
+            'net_iface_up':
+                category:
+                    - network
+                type:
+                    - info
+                outcome: success
+            'net_addr_v4_add':
+                category:
+                    - network
+                type:
+                    - info
+                outcome: success
+            'IFCONFIG POOL IPv4':
+                category:
+                    - network
+                type:
+                    - info
+                outcome: success
+            'peer info':
+                category:
+                    - configuration
+                type:
+                    - info
+                outcome: success
+            'Control Channel':
+                category:
+                    - configuration
+                type:
+                    - info
+                outcome: success
+            'Outgoing Data Channel':
+                category:
+                    - configuration
+                type:
+                    - info
+                outcome: success
+            'Incoming Data Channel':
+                category:
+                    - configuration
+                type:
+                    - info
+                outcome: success
+            'SENT CONTROL':
+                category:
+                    - configuration
+                type:
+                    - creation
+                outcome: success
+        source: |-
+            if (ctx.openvpn?.event?.type?.name == null || params.get(ctx.openvpn.event.type.name) == null) {
+                return;
+            }
+            def hm = new HashMap(params.get(ctx.openvpn.event.type.name));
+            ctx.event.category = hm.category;
+            ctx.event.type = hm.type;
+            ctx.event.outcome = hm.outcome;    
+
+    - set:
+        field: event.kind
+        value: event
 
     - remove:
         field:
