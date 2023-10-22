@@ -146,13 +146,13 @@ An example event for `log` looks as following:
 | log.file.path | Full path to the log file this event came from. |  |
 | log.offset | Log offset | long |
 | log.source.address | Source address from which the log event was read / sent from. | keyword |
-| message |  | keyword |
+| message |  | match_only_text |
 | network.protocol | In the OSI Model this would be the Application Layer protocol. For example, `http`, `dns`, or `ssh`. The field value must be normalized to lowercase for querying. | keyword |
-| openvpn.client.cipher | Used Cipher for the client connection. | keyword |
+| openvpn.cipher | Used Cipher for the connection. | keyword |
 | openvpn.client.ciphers | Client announced supported ciphers. | keyword |
-| openvpn.client.control | Options pushed to the Client from the server. | keyword |
+| openvpn.client.control.config | Options pushed to the Client from the server. | keyword |
+| openvpn.client.control.status | Status of the pushed config to the Client. | keyword |
 | openvpn.client.gui.version | The client used UI version. | keyword |
-| openvpn.client.hash | Used message hash for the client connection. | keyword |
 | openvpn.client.id | A unique and persistent ID of the client. | keyword |
 | openvpn.client.lz4 | If the client supports LZ4 compressions. | keyword |
 | openvpn.client.lzo | If client was built with LZO stub capability. | keyword |
@@ -164,9 +164,13 @@ An example event for `log` looks as following:
 | openvpn.client.session.id | Client session id. | keyword |
 | openvpn.client.tcp_nonlinear_mode | client indicates its ability to process non-linear packet ID sequences in TCP mode. | keyword |
 | openvpn.client.version | The client used OpenVPN version. | keyword |
+| openvpn.event.type.name | OpenVPN event type. | keyword |
+| openvpn.exit.code | Reaseon of the session close | keyword |
+| openvpn.hash | Used message hash for the connection. | keyword |
 | openvpn.server.cipher | Used Cipher for the connection. | keyword |
 | openvpn.server.gateway | Used Gateway of the openvpn Server. | ip |
 | openvpn.server.hash | Used Hash for the connection. | keyword |
+| openvpn.server.mtu | The MTU set on the openvpn server Interface. | keyword |
 | process.name | Process name. Sometimes called program name or similar. | keyword |
 | process.name.text | Multi-field of `process.name`. | match_only_text |
 | source.address | Some event source addresses are defined ambiguously. The event will sometimes list an IP, a domain or a unix socket.  You should always store the raw address in the `.address` field. Then it should be duplicated to `.ip` or `.domain`, depending on which one it is. | keyword |

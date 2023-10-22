@@ -756,7 +756,7 @@
                 "outcome": "success",
                 "type": [
                     "user",
-                    "start"
+                    "info"
                 ]
             },
             "message": "VERIFY OK: depth=0, CN=test",
@@ -789,6 +789,53 @@
             ],
             "user": {
                 "name": "test"
+            }
+        },
+        {
+            "@timestamp": "2023-10-14T16:49:40.000Z",
+            "ecs": {
+                "version": "8.10.0"
+            },
+            "event": {
+                "kind": "event",
+                "original": "2023-10-14 16:49:40 Hans Peter/89.160.20.142:40050 VERIFY WARNING: depth=2, unable to get certificate CRL: CN=company rootCA ECC 2022, O=company AG, L=Berlin, ST=Berlin, C=DE"
+            },
+            "message": "VERIFY WARNING: depth=2, unable to get certificate CRL: CN=company rootCA ECC 2022, O=company AG, L=Berlin, ST=Berlin, C=DE",
+            "openvpn": {
+                "event": {
+                    "type": {
+                        "name": "VERIFY WARNING"
+                    }
+                }
+            },
+            "source": {
+                "address": "89.160.20.142",
+                "as": {
+                    "number": 29518,
+                    "organization": {
+                        "name": "Bredband2 AB"
+                    }
+                },
+                "geo": {
+                    "city_name": "Linköping",
+                    "continent_name": "Europe",
+                    "country_iso_code": "SE",
+                    "country_name": "Sweden",
+                    "location": {
+                        "lat": 58.4167,
+                        "lon": 15.6167
+                    },
+                    "region_iso_code": "SE-E",
+                    "region_name": "Östergötland County"
+                },
+                "ip": "89.160.20.142",
+                "port": 40050
+            },
+            "tags": [
+                "preserve_original_event"
+            ],
+            "user": {
+                "name": "company rootCA ECC 2022"
             }
         },
         {
@@ -1282,6 +1329,7 @@
             },
             "event": {
                 "category": [
+                    "authentication",
                     "session"
                 ],
                 "kind": "event",
@@ -1511,7 +1559,7 @@
                     "configuration"
                 ],
                 "kind": "event",
-                "original": "2023-10-14 16:49:39 test/81.2.69.142:50075 Incoming Data Channel: Cipher 'AES-128-GCM' initialized with 128 bit key",
+                "original": "2023-10-14 16:49:39 Lawanda Palmer/81.2.69.142:50075 Incoming Data Channel: Cipher 'AES-128-GCM' initialized with 128 bit key",
                 "outcome": "success",
                 "type": [
                     "info"
@@ -1547,7 +1595,7 @@
                 "preserve_original_event"
             ],
             "user": {
-                "name": "test"
+                "name": "Lawanda Palmer"
             }
         },
         {
@@ -1614,7 +1662,7 @@
                     "session"
                 ],
                 "kind": "event",
-                "original": "2023-10-14 16:50:14 test/81.2.69.142:50075 SIGTERM[soft,remote-exit] received, client-instance exiting",
+                "original": "2023-10-14 16:50:14 Ricky Karim Wilkerson Proctor/81.2.69.142:50075 SIGTERM[soft,remote-exit] received, client-instance exiting",
                 "outcome": "success",
                 "type": [
                     "end"
@@ -1652,7 +1700,7 @@
                 "preserve_original_event"
             ],
             "user": {
-                "name": "test"
+                "name": "Ricky Karim Wilkerson Proctor"
             }
         },
         {
@@ -2188,6 +2236,340 @@
             "tags": [
                 "preserve_original_event"
             ]
+        },
+        {
+            "@timestamp": "2023-10-14T16:52:40.000Z",
+            "ecs": {
+                "version": "8.10.0"
+            },
+            "event": {
+                "kind": "event",
+                "original": "2023-10-14 16:52:40 175.16.199.42:1194 PLUGIN_CALL: POST openvpn-plugin-auth-pam.so/PLUGIN_AUTH_USER_PASS_VERIFY status=0"
+            },
+            "message": "PLUGIN_CALL: POST openvpn-plugin-auth-pam.so/PLUGIN_AUTH_USER_PASS_VERIFY status=0",
+            "openvpn": {
+                "event": {
+                    "type": {
+                        "name": "PLUGIN_CALL"
+                    }
+                }
+            },
+            "source": {
+                "address": "175.16.199.42",
+                "geo": {
+                    "city_name": "Changchun",
+                    "continent_name": "Asia",
+                    "country_iso_code": "CN",
+                    "country_name": "China",
+                    "location": {
+                        "lat": 43.88,
+                        "lon": 125.3228
+                    },
+                    "region_iso_code": "CN-22",
+                    "region_name": "Jilin Sheng"
+                },
+                "ip": "175.16.199.42",
+                "port": 1194
+            },
+            "tags": [
+                "preserve_original_event"
+            ]
+        },
+        {
+            "@timestamp": "2023-10-14T16:52:41.000Z",
+            "ecs": {
+                "version": "8.10.0"
+            },
+            "event": {
+                "kind": "event",
+                "original": "2023-10-14 16:52:41 175.16.199.42:1194 PLUGIN_CALL: plugin function PLUGIN_AUTH_USER_PASS_VERIFY failed with status 1: openvpn-plugin-auth-pam.so"
+            },
+            "message": "PLUGIN_CALL: plugin function PLUGIN_AUTH_USER_PASS_VERIFY failed with status 1: openvpn-plugin-auth-pam.so",
+            "openvpn": {
+                "event": {
+                    "type": {
+                        "name": "PLUGIN_CALL"
+                    }
+                }
+            },
+            "source": {
+                "address": "175.16.199.42",
+                "geo": {
+                    "city_name": "Changchun",
+                    "continent_name": "Asia",
+                    "country_iso_code": "CN",
+                    "country_name": "China",
+                    "location": {
+                        "lat": 43.88,
+                        "lon": 125.3228
+                    },
+                    "region_iso_code": "CN-22",
+                    "region_name": "Jilin Sheng"
+                },
+                "ip": "175.16.199.42",
+                "port": 1194
+            },
+            "tags": [
+                "preserve_original_event"
+            ]
+        },
+        {
+            "@timestamp": "2023-10-14T16:52:42.000Z",
+            "ecs": {
+                "version": "8.10.0"
+            },
+            "event": {
+                "kind": "event",
+                "original": "2023-10-14 16:52:42 175.16.199.42:1194 PLUGIN_CALL: POST openvpn-plugin-auth-pam.so/PLUGIN_AUTH_USER_PASS_VERIFY status=0"
+            },
+            "message": "PLUGIN_CALL: POST openvpn-plugin-auth-pam.so/PLUGIN_AUTH_USER_PASS_VERIFY status=0",
+            "openvpn": {
+                "event": {
+                    "type": {
+                        "name": "PLUGIN_CALL"
+                    }
+                }
+            },
+            "source": {
+                "address": "175.16.199.42",
+                "geo": {
+                    "city_name": "Changchun",
+                    "continent_name": "Asia",
+                    "country_iso_code": "CN",
+                    "country_name": "China",
+                    "location": {
+                        "lat": 43.88,
+                        "lon": 125.3228
+                    },
+                    "region_iso_code": "CN-22",
+                    "region_name": "Jilin Sheng"
+                },
+                "ip": "175.16.199.42",
+                "port": 1194
+            },
+            "tags": [
+                "preserve_original_event"
+            ]
+        },
+        {
+            "@timestamp": "2023-10-14T16:52:43.000Z",
+            "ecs": {
+                "version": "8.10.0"
+            },
+            "event": {
+                "kind": "event",
+                "original": "2023-10-14 16:52:43 81.2.69.145:1194 WARNING: 'cipher' is present in local config but missing in remote config, local='cipher BF-CBC'"
+            },
+            "message": "WARNING: 'cipher' is present in local config but missing in remote config, local='cipher BF-CBC'",
+            "openvpn": {
+                "event": {
+                    "type": {
+                        "name": "WARNING"
+                    }
+                }
+            },
+            "source": {
+                "address": "81.2.69.145",
+                "geo": {
+                    "city_name": "London",
+                    "continent_name": "Europe",
+                    "country_iso_code": "GB",
+                    "country_name": "United Kingdom",
+                    "location": {
+                        "lat": 51.5142,
+                        "lon": -0.0931
+                    },
+                    "region_iso_code": "GB-ENG",
+                    "region_name": "England"
+                },
+                "ip": "81.2.69.145",
+                "port": 1194
+            },
+            "tags": [
+                "preserve_original_event"
+            ]
+        },
+        {
+            "@timestamp": "2023-10-14T16:52:43.000Z",
+            "ecs": {
+                "version": "8.10.0"
+            },
+            "event": {
+                "kind": "event",
+                "original": "2023-10-14 16:52:43 Husna Rose/175.16.199.42:1194 TLS: Username/auth-token authentication succeeded for username 'hrose'"
+            },
+            "message": "TLS: Username/auth-token authentication succeeded for username 'hrose'",
+            "openvpn": {
+                "event": {
+                    "type": {
+                        "name": "TLS"
+                    }
+                }
+            },
+            "source": {
+                "address": "175.16.199.42",
+                "geo": {
+                    "city_name": "Changchun",
+                    "continent_name": "Asia",
+                    "country_iso_code": "CN",
+                    "country_name": "China",
+                    "location": {
+                        "lat": 43.88,
+                        "lon": 125.3228
+                    },
+                    "region_iso_code": "CN-22",
+                    "region_name": "Jilin Sheng"
+                },
+                "ip": "175.16.199.42",
+                "port": 1194
+            },
+            "tags": [
+                "preserve_original_event"
+            ],
+            "user": {
+                "name": "Husna Rose"
+            }
+        },
+        {
+            "@timestamp": "2023-10-14T16:52:43.000Z",
+            "ecs": {
+                "version": "8.10.0"
+            },
+            "event": {
+                "kind": "event",
+                "original": "2023-10-14 16:52:43 Gustaff Gans/1.128.42.42:1194 TLS Error: local/remote TLS keys are out of sync: [AF_INET6]::ffff:1.128.42.42:1194 [1]"
+            },
+            "message": "TLS Error: local/remote TLS keys are out of sync: [AF_INET6]::ffff:1.128.42.42:1194 [1]",
+            "openvpn": {
+                "event": {
+                    "type": {
+                        "name": "TLS Error"
+                    }
+                }
+            },
+            "source": {
+                "address": "1.128.42.42",
+                "as": {
+                    "number": 1221,
+                    "organization": {
+                        "name": "Telstra Pty Ltd"
+                    }
+                },
+                "ip": "1.128.42.42",
+                "port": 1194
+            },
+            "tags": [
+                "preserve_original_event"
+            ],
+            "user": {
+                "name": "Gustaff Gans"
+            }
+        },
+        {
+            "@timestamp": "2023-10-14T16:52:43.000Z",
+            "ecs": {
+                "version": "8.10.0"
+            },
+            "event": {
+                "kind": "event",
+                "original": "2023-10-14 16:52:43 AUTH-PAM: BACKGROUND: user 'hrose' failed to authenticate: Authentication failure"
+            },
+            "message": "AUTH-PAM: BACKGROUND: user 'hrose' failed to authenticate: Authentication failure",
+            "openvpn": {
+                "event": {
+                    "type": {
+                        "name": "AUTH-PAM"
+                    }
+                }
+            },
+            "tags": [
+                "preserve_original_event"
+            ]
+        },
+        {
+            "@timestamp": "2023-10-14T16:52:45.000Z",
+            "ecs": {
+                "version": "8.10.0"
+            },
+            "event": {
+                "kind": "event",
+                "original": "2023-10-14 16:52:45 89.160.20.142:50539 VERIFY WARNING: depth=0, unable to get certificate CRL: emailAddress=tyrese.stewart@company.local, CN=Tyrese Stewart, O=local company AG"
+            },
+            "message": "VERIFY WARNING: depth=0, unable to get certificate CRL: emailAddress=tyrese.stewart@company.local, CN=Tyrese Stewart, O=local company AG",
+            "openvpn": {
+                "event": {
+                    "type": {
+                        "name": "VERIFY WARNING"
+                    }
+                }
+            },
+            "source": {
+                "address": "89.160.20.142",
+                "as": {
+                    "number": 29518,
+                    "organization": {
+                        "name": "Bredband2 AB"
+                    }
+                },
+                "geo": {
+                    "city_name": "Linköping",
+                    "continent_name": "Europe",
+                    "country_iso_code": "SE",
+                    "country_name": "Sweden",
+                    "location": {
+                        "lat": 58.4167,
+                        "lon": 15.6167
+                    },
+                    "region_iso_code": "SE-E",
+                    "region_name": "Östergötland County"
+                },
+                "ip": "89.160.20.142",
+                "port": 50539
+            },
+            "tags": [
+                "preserve_original_event"
+            ],
+            "user": {
+                "name": "Tyrese Stewart"
+            }
+        },
+        {
+            "@timestamp": "2023-10-14T16:52:45.000Z",
+            "ecs": {
+                "version": "8.10.0"
+            },
+            "event": {
+                "kind": "event",
+                "original": "2023-10-14 16:52:45 Harish Alte/2a02:cf40::187e:7980 AEAD Decrypt error: bad packet ID (may be a replay): [ #73257 ] -- see the man page entry for --no-replay and --replay-window for more info or silence this warning with --mute-replay-warnings"
+            },
+            "message": "AEAD Decrypt error: bad packet ID (may be a replay): [ #73257 ] -- see the man page entry for --no-replay and --replay-window for more info or silence this warning with --mute-replay-warnings",
+            "openvpn": {
+                "event": {
+                    "type": {
+                        "name": "AEAD Decrypt error"
+                    }
+                }
+            },
+            "source": {
+                "address": "2a02:cf40::187e",
+                "geo": {
+                    "continent_name": "Europe",
+                    "country_iso_code": "NO",
+                    "country_name": "Norway",
+                    "location": {
+                        "lat": 62.0,
+                        "lon": 10.0
+                    }
+                },
+                "ip": "2a02:cf40::187e",
+                "port": 7980
+            },
+            "tags": [
+                "preserve_original_event"
+            ],
+            "user": {
+                "name": "Harish Alte"
+            }
         }
     ]
 }

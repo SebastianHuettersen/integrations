@@ -20,10 +20,10 @@ processors:
             SOURCE: '%{IP:source.address}:%{NONNEGINT:source.port:long}'
             
         patterns:
-            - '^%{TIMESTAMP:_temp.timestamp} %{USERNAME:user.name}/%{SOURCE} %{GREEDYDATA:message}$'
+            - '^%{TIMESTAMP:_temp.timestamp} %{DATA:user.name}/%{SOURCE} %{GREEDYDATA:message}$'
             - '^%{TIMESTAMP:_temp.timestamp} %{SOURCE} %{GREEDYDATA:message}$'
             - '^%{TIMESTAMP:_temp.timestamp} %{GREEDYDATA:message}$'
-    
+
     - grok:
         description: Grok for extraction event type name.
         tag: grok-specific-messages
@@ -37,7 +37,7 @@ processors:
         patterns:
             - '^%{EVENTACTION:openvpn.event.type.name}: %{GREEDYDATA:_temp.event.message}$'
             - '^%{SIGNAL:openvpn.event.type.name}\[%{WORD},%{DATA:openvpn.exit.code}\]'
-            - '^\[%{USERNAME}\] %{CONINIT:openvpn.event.type.name}'
+            - '^\[%{DATA}\] %{CONINIT:openvpn.event.type.name}'
 
     - grok:
         description: Grok specific openvpn peer_info messages.
@@ -115,7 +115,7 @@ processors:
         tag: grok-specific-messages
         ignore_missing: true
         patterns:
-            - "^depth=%{INT}, CN=%{GREEDYDATA:user.name}$"
+            - "^depth=%{INT},%{DATA} (emailAddress=%{EMAILADDRESS},)?CN=%{DATA:user.name}(, O=%{DATA})?$"
         if: ctx.openvpn?.event?.type?.name != null && ctx.openvpn.event.type.name.contains('VERIFY')
 
 
@@ -129,8 +129,8 @@ processors:
             SOURCE: '%{IP:source.address}:%{NONNEGINT:source.port:long}'
         patterns:
             - '^pool returned IPv4=(%{IP:source.nat.ip}|%{GREEDYDATA}),%{SPACE}IPv6=(%{IP:source.nat.ip}|%{GREEDYDATA})'
-            - '^Learn: %{IP:source.nat.ip} -> %{USERNAME:user.name}/%{SOURCE}'
-            - '^primary virtual IP for %{USERNAME:user.name}/%{SOURCE}: %{IP:source.nat.ip}'
+            - '^Learn: %{IP:source.nat.ip} -> %{DATA:user.name}/%{SOURCE}'
+            - '^primary virtual IP for %{DATA:user.name}/%{SOURCE}: %{IP:source.nat.ip}'
             - '^multi_init called, r=%{INT} v=%{INT}$'
         if: ctx.openvpn?.event?.type?.name != null && ctx.openvpn.event.type.name.contains('MULTI')
 
@@ -228,16 +228,17 @@ processors:
                     - authentication
                 type:
                     - user
-                    - start
+                    - info
                 outcome: success
             'VERIFY ERROR':
                 category:
                     - authentication
                 type:
-                    - end
+                    - info
                 outcome: failure  
             'Peer Connection Initiated':
                 category:
+                    - authentication
                     - session
                 type:
                     - start

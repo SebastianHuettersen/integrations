@@ -31,6 +31,7 @@
 2023-10-14 16:49:39 81.2.69.142:50075 Incoming Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication
 2023-10-14 16:49:39 81.2.69.142:50075 TLS: Initial packet from [AF_INET]81.2.69.142:50075, sid=549698bd b232e312
 2023-10-14 16:49:39 81.2.69.142:50075 VERIFY OK: depth=0, CN=test
+2023-10-14 16:49:40 Hans Peter/89.160.20.142:40050 VERIFY WARNING: depth=2, unable to get certificate CRL: CN=company rootCA ECC 2022, O=company AG, L=Berlin, ST=Berlin, C=DE
 2023-10-14 16:49:39 81.2.69.142:50075 peer info: IV_VER=2.6.3
 2023-10-14 16:49:39 81.2.69.142:50075 peer info: IV_PLAT=linux
 2023-10-14 16:49:39 81.2.69.142:50075 peer info: IV_TCPNL=1
@@ -46,9 +47,9 @@
 2023-10-14 16:49:39 test/81.2.69.142:50075 MULTI: Learn: 10.8.0.2 -> test/81.2.69.142:50075
 2023-10-14 16:49:39 test/81.2.69.142:50075 MULTI: primary virtual IP for test/81.2.69.142:50075: 10.8.0.2
 2023-10-14 16:49:39 test/81.2.69.142:50075 Outgoing Data Channel: Cipher 'AES-128-GCM' initialized with 128 bit key
-2023-10-14 16:49:39 test/81.2.69.142:50075 Incoming Data Channel: Cipher 'AES-128-GCM' initialized with 128 bit key
+2023-10-14 16:49:39 Lawanda Palmer/81.2.69.142:50075 Incoming Data Channel: Cipher 'AES-128-GCM' initialized with 128 bit key
 2023-10-14 16:49:39 test/81.2.69.142:50075 SENT CONTROL [test]: 'PUSH_REPLY,dhcp-option DNS 10.20.10.1,redirect-gateway def1 bypass-dhcp,route-gateway 10.8.0.1,topology subnet,ping 10,ping-restart 120,ifconfig 10.8.0.2 255.255.255.0,peer-id 0,cipher AES-128-GCM' (status=1)
-2023-10-14 16:50:14 test/81.2.69.142:50075 SIGTERM[soft,remote-exit] received, client-instance exiting
+2023-10-14 16:50:14 Ricky Karim Wilkerson Proctor/81.2.69.142:50075 SIGTERM[soft,remote-exit] received, client-instance exiting
 2023-10-14 16:51:48 81.2.69.142:45017 Outgoing Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key
 2023-10-14 16:51:48 81.2.69.142:45017 Outgoing Control Channel Encryption: Using 256 bit message hash 'SHA256' for HMAC authentication
 2023-10-14 16:51:48 81.2.69.142:45017 Incoming Control Channel Encryption: Cipher 'AES-256-CTR' initialized with 256 bit key
@@ -64,3 +65,12 @@
 2023-10-14 16:52:35 TLS Error: tls-crypt unwrapping failed from [AF_INET]81.2.69.142:48730
 2023-10-14 16:52:39 tls-crypt unwrap error: packet authentication failed
 2023-10-14 16:52:39 TLS Error: tls-crypt unwrapping failed from [AF_INET]81.2.69.142:48730
+2023-10-14 16:52:40 175.16.199.42:1194 PLUGIN_CALL: POST openvpn-plugin-auth-pam.so/PLUGIN_AUTH_USER_PASS_VERIFY status=0
+2023-10-14 16:52:41 175.16.199.42:1194 PLUGIN_CALL: plugin function PLUGIN_AUTH_USER_PASS_VERIFY failed with status 1: openvpn-plugin-auth-pam.so
+2023-10-14 16:52:42 175.16.199.42:1194 PLUGIN_CALL: POST openvpn-plugin-auth-pam.so/PLUGIN_AUTH_USER_PASS_VERIFY status=0
+2023-10-14 16:52:43 81.2.69.145:1194 WARNING: 'cipher' is present in local config but missing in remote config, local='cipher BF-CBC'
+2023-10-14 16:52:43 Husna Rose/175.16.199.42:1194 TLS: Username/auth-token authentication succeeded for username 'hrose'
+2023-10-14 16:52:43 Gustaff Gans/1.128.42.42:1194 TLS Error: local/remote TLS keys are out of sync: [AF_INET6]::ffff:1.128.42.42:1194 [1]
+2023-10-14 16:52:43 AUTH-PAM: BACKGROUND: user 'hrose' failed to authenticate: Authentication failure
+2023-10-14 16:52:45 89.160.20.142:50539 VERIFY WARNING: depth=0, unable to get certificate CRL: emailAddress=tyrese.stewart@company.local, CN=Tyrese Stewart, O=local company AG
+2023-10-14 16:52:45 Harish Alte/2a02:cf40::187e:7980 AEAD Decrypt error: bad packet ID (may be a replay): [ #73257 ] -- see the man page entry for --no-replay and --replay-window for more info or silence this warning with --mute-replay-warnings
