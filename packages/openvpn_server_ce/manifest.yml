@@ -26,8 +26,8 @@ icons:
     type: image/svg+xml
 policy_templates:
   - name: openvpn_ce
-    title: OpenVPN CE logs and metrics
-    description: Collect logs and metrics from OpenVPN Community Edition instances
+    title: OpenVPN CE logs
+    description: Collect logs from OpenVPN Community Edition instances
     inputs:
       - type: logfile
         title: Collect logs from OpenVPN CE instances

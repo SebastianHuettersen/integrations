@@ -6,12 +6,9 @@ Use the OpenVPN Server integration to collect and parse logs related to VPN. The
 
 ## Data streams
 
-The OpenVPN CE Server integration collects two types of data: logs and metrics
+The OpenVPN CE Server integration collects the following types of data: logs
 
 **Logs**  help you keep a record of events that happen on your openvpn server.
-
-**Metrics** give you insight into the state of the openvpn server.
-
 
 ## Requirements
 
@@ -24,11 +21,6 @@ This integration has been tested against **OpenVPN 2.5.1**
 For maximum functionality the openvpn logs must be written to a file this can be achieved using the following parameter in the configuration
 
     log-append  /var/log/openvpn/openvpn.log
-
-For metrics, the status log is also required, which can be enabled using the following parameter
-
-    status /var/log/openvpn/status.log
-
 
 ## Logs
 
