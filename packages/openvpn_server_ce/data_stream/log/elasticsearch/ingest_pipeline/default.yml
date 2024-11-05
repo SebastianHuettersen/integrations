@@ -3,7 +3,7 @@ description: Pipeline for processing sample logs
 processors:
     - set:
         field: ecs.version
-        value: '8.10.0'
+        value: '8.11.0'
     
     - rename:
         if: ctx.event?.original == null
@@ -11,18 +11,46 @@ processors:
         target_field: event.original
         ignore_missing: true
 
+    - remove:
+        if: ctx.event?.original != null
+        field: message
+        ignore_missing: true
+
+    # Journald input field cleanup.
+    - remove:
+        field:
+            - syslog.priority
+            - syslog.facility
+        ignore_missing: true
+    - rename:
+        field: syslog.pid
+        target_field: log.syslog.procid
+        ignore_missing: true
+    - rename:
+        field: syslog.identifier
+        target_field: log.syslog.appname
+        ignore_missing: true
+    - remove:
+        description: Cleanup an empty syslog object.
+        if: ctx?.syslog != null && ctx.syslog instanceof Map && ctx.syslog.isEmpty()
+        field: syslog
+
+    # Parse the header if it is syslog, otherwise treat the whole value as 'message'.
     - grok:
         description: Grok the message header.
         tag: grok-message-header
         field: event.original
         pattern_definitions:
             TIMESTAMP: (?:%{TIMESTAMP_ISO8601}|%{SYSLOGTIMESTAMP})
-            SOURCE: '%{IP:source.address}:%{NONNEGINT:source.port:long}'
-            
+            SOURCE: '%{IP:source.address}:%{NONNEGINT:source.port:long}'  
         patterns:
-            - '^%{TIMESTAMP:_temp.timestamp} %{DATA:user.name}/%{SOURCE} %{GREEDYDATA:message}$'
-            - '^%{TIMESTAMP:_temp.timestamp} %{SOURCE} %{GREEDYDATA:message}$'
-            - '^%{TIMESTAMP:_temp.timestamp} %{GREEDYDATA:message}$'
+            - '^%{TIMESTAMP:_tmp.timestamp} %{DATA:user.name}/%{SOURCE} %{GREEDYDATA:message}$'
+            - '^%{TIMESTAMP:_tmp.timestamp} %{SOURCE} %{GREEDYDATA:message}$'
+            - '^%{TIMESTAMP:_tmp.timestamp} %{GREEDYDATA:message}$'
+        on_failure:
+            - set:
+                field: message
+                copy_from: event.original
 
     - grok:
         description: Grok for extraction event type name.
@@ -35,14 +63,14 @@ processors:
             SIGNAL: 'SIGTERM|SIGUSR1'
             CONINIT: 'Peer Connection Initiated'
         patterns:
-            - '^%{EVENTACTION:openvpn.event.type.name}: %{GREEDYDATA:_temp.event.message}$'
+            - '^%{EVENTACTION:openvpn.event.type.name}: %{GREEDYDATA:_tmp.event.message}$'
             - '^%{SIGNAL:openvpn.event.type.name}\[%{WORD},%{DATA:openvpn.exit.code}\]'
             - '^\[%{DATA}\] %{CONINIT:openvpn.event.type.name}'
 
     - grok:
         description: Grok specific openvpn peer_info messages.
         tag: grok-specific-messages
-        field: _temp.event.message
+        field: _tmp.event.message
         ignore_missing: true
         patterns:
             - '^IV_VER=%{GREEDYDATA:openvpn.client.version}'
@@ -62,13 +90,13 @@ processors:
         on_failure:
             - rename:
                 description: We do not know the Key therfore leave content unmatched.
-                field: _temp.event.message
+                field: _tmp.event.message
                 target_field: openvpn.client.peer_info
 
     - grok:
         description: Grok specific openvpn chiper messages.
         tag: grok-specific-messages
-        field: _temp.event.message
+        field: _tmp.event.message
         ignore_missing: true
         patterns:
             - "^Cipher '%{GREEDYDATA:openvpn.cipher}' initialized with %{INT} bit key"
@@ -79,7 +107,7 @@ processors:
     - grok:
         description: Grok specific openvpn chiper messages.
         tag: grok-specific-messages
-        field: _temp.event.message
+        field: _tmp.event.message
         ignore_missing: true
         patterns:
             - "^TLSv%{GREEDYDATA}, cipher TLSv%{GREEDYDATA:tls.version} %{GREEDYDATA:tls.cipher}, %{GREEDYDATA}, curve: %{GREEDYDATA:tls.curve}"
@@ -88,7 +116,7 @@ processors:
 
     - grok:
         description: Grok specific openvpn client control messages.
-        field: _temp.event.message
+        field: _tmp.event.message
         tag: grok-specific-messages
         ignore_missing: true
         patterns:
@@ -98,7 +126,7 @@ processors:
 
     - grok:
         description: Grok specific openvpn TLS messages.
-        field: _temp.event.message
+        field: _tmp.event.message
         tag: grok-specific-messages
         ignore_missing: true
         ignore_failure: true
@@ -111,7 +139,7 @@ processors:
 
     - grok:
         description: Grok specific openvpn verify messages.
-        field: _temp.event.message
+        field: _tmp.event.message
         tag: grok-specific-messages
         ignore_missing: true
         patterns:
@@ -121,7 +149,7 @@ processors:
 
     - grok:
         description: Grok specific openvpn multi messages.
-        field: _temp.event.message
+        field: _tmp.event.message
         tag: grok-specific-messages
         ignore_missing: true
         ignore_failure: true
@@ -136,7 +164,7 @@ processors:
 
     - grok:
         description: Grok specific openvpn network configuration messages.
-        field: _temp.event.message
+        field: _tmp.event.message
         tag: grok-specific-messages
         ignore_missing: true
         ignore_failure: true
@@ -150,8 +178,8 @@ processors:
         if: ctx.openvpn?.event?.type?.name != null && ctx.openvpn.event.type.name.contains('net_')
 
     - date:
-        if: ctx.event?.timezone == null
-        field: _temp.timestamp
+        if: ctx.event?.timezone == null && ctx._tmp?.timestamp != null
+        field: _tmp.timestamp
         target_field: '@timestamp'
         formats:
             - yyyy-MM-dd HH:mm:ss
@@ -164,8 +192,8 @@ processors:
                 value: '{{{ _ingest.on_failure_message }}}'
 
     - date:
-        if: ctx.event?.timezone != null
-        field: _temp.timestamp
+        if: ctx.event?.timezone != null && ctx._tmp?.timestamp != null
+        field: _tmp.timestamp
         target_field: '@timestamp'
         formats:
             - yyyy-MM-dd HH:mm:ss
@@ -327,7 +355,7 @@ processors:
 
     - remove:
         field:
-            - _temp
+            - _tmp
         ignore_failure: true
         ignore_missing: true
 

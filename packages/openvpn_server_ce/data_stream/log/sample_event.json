@@ -1,61 +1,105 @@
 {
-    "@timestamp": "2023-10-14T16:49:29.000Z",
+    "@timestamp": "2023-10-14T14:45:31.714Z",
     "agent": {
-        "ephemeral_id": "b47abda8-874e-4a1c-8c5e-44c547ec28f8",
-        "id": "db2936d8-c4aa-4fc5-a08c-02c2c958f2c3",
-        "name": "docker-fleet-agent",
+        "ephemeral_id": "315dd611-0db8-4200-a59e-a5b010295677",
+        "id": "3f9b6289-a579-4d89-83b9-8880e89862b8",
+        "name": "elastic-agent-30735",
         "type": "filebeat",
-        "version": "8.10.1"
+        "version": "8.15.2"
     },
     "data_stream": {
         "dataset": "openvpn_server_ce.log",
-        "namespace": "ep",
+        "namespace": "91867",
         "type": "logs"
     },
     "ecs": {
-        "version": "8.10.0"
+        "version": "8.11.0"
     },
     "elastic_agent": {
-        "id": "db2936d8-c4aa-4fc5-a08c-02c2c958f2c3",
+        "id": "3f9b6289-a579-4d89-83b9-8880e89862b8",
         "snapshot": false,
-        "version": "8.10.1"
+        "version": "8.15.2"
     },
     "event": {
         "agent_id_status": "verified",
+        "created": "2024-11-05T07:52:56.618Z",
         "dataset": "openvpn_server_ce.log",
-        "ingested": "2023-10-15T18:29:47Z",
-        "timezone": "+00:00"
+        "ingested": "2024-11-05T07:52:59Z",
+        "kind": "event"
     },
     "host": {
-        "architecture": "x86_64",
-        "containerized": false,
-        "hostname": "docker-fleet-agent",
-        "id": "28da52b32df94b50aff67dfb8f1be3d6",
-        "ip": [
-            "172.22.0.7"
-        ],
-        "mac": [
-            "02-42-AC-16-00-07"
-        ],
-        "name": "docker-fleet-agent",
-        "os": {
-            "codename": "focal",
-            "family": "debian",
-            "kernel": "6.5.0-1-amd64",
-            "name": "Ubuntu",
-            "platform": "ubuntu",
-            "type": "linux",
-            "version": "20.04.6 LTS (Focal Fossa)"
-        }
+        "hostname": "dev",
+        "id": "e9511ddd06564be9b6954b19fd463f70"
     },
     "input": {
-        "type": "log"
+        "type": "journald"
+    },
+    "journald": {
+        "custom": {
+            "selinux_context": "unconfined\n",
+            "syslog_timestamp": "Oct 14 16:45:31 "
+        },
+        "gid": 65534,
+        "host": {
+            "boot_id": "5afd906fc07349b2850772a9e84521ba"
+        },
+        "pid": 19215,
+        "process": {
+            "capabilities": "0",
+            "command_line": "/usr/sbin/openvpn --daemon ovpn-server --status /run/openvpn/server.status 10 --cd /etc/openvpn --config /etc/openvpn/server.conf --writepid /run/openvpn/server.pid",
+            "executable": "/usr/sbin/openvpn",
+            "name": "openvpn"
+        },
+        "uid": 65534
     },
     "log": {
-        "file": {
-            "path": "/tmp/service_logs/openvpn_server.log"
-        },
-        "offset": 0
+        "syslog": {
+            "facility": {
+                "code": 3
+            },
+            "priority": 5
+        }
     },
-    "message": "OpenVPN 2.5.1 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on May 14 2021"
+    "message": "Initialization Sequence Completed",
+    "process": {
+        "args": [
+            "/usr/sbin/openvpn",
+            "--daemon",
+            "ovpn-server",
+            "--status",
+            "/run/openvpn/server.status",
+            "10",
+            "--cd",
+            "/etc/openvpn",
+            "--config",
+            "/etc/openvpn/server.conf",
+            "--writepid",
+            "/run/openvpn/server.pid"
+        ],
+        "args_count": 12,
+        "command_line": "/usr/sbin/openvpn --daemon ovpn-server --status /run/openvpn/server.status 10 --cd /etc/openvpn --config /etc/openvpn/server.conf --writepid /run/openvpn/server.pid",
+        "pid": 19215
+    },
+    "syslog": {
+        "facility": 3,
+        "identifier": "ovpn-server",
+        "pid": 19215,
+        "priority": 5
+    },
+    "systemd": {
+        "cgroup": "/system.slice/system-openvpn.slice/openvpn@server.service",
+        "invocation_id": "960385b5602d4ad998294a689953282b",
+        "slice": "system-openvpn.slice",
+        "transport": "syslog",
+        "unit": "openvpn@server.service"
+    },
+    "tags": [
+        "forwarded"
+    ],
+    "user": {
+        "group": {
+            "id": "65534"
+        },
+        "id": "65534"
+    }
 }

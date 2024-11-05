@@ -2,8 +2,9 @@ title: "OpenVPN CE Logs"
 type: logs
 streams:
   - input: logfile
-    title: OpenVPN CE server logs
-    description: Collect OpenVPN server logs
+    title: OpenVPN CE server log logs
+    description: Collect OpenVPN server logs via log input
+    template_path: log.yml.hbs
     vars:
       - name: paths
         type: text
@@ -30,3 +31,42 @@ streams:
         description: >
           Processors are used to reduce the number of fields in the exported event or to enhance the event with metadata. This executes in the agent before the logs are parsed. See [Processors](https://www.elastic.co/guide/en/beats/filebeat/current/filtering-and-enhancing-data.html) for details.
 
+  - input: journald
+    title: OpenVPN CE server logs from journal
+    description: Collect OpenVPN server logs via journald
+    template_path: journald.yml.hbs
+    vars:
+      - name: include_matches
+        type: text
+        title: Include Matches
+        multi: true
+        show_user: true
+        default:
+          - systemd.unit=openvpn@server.service
+        description: >
+          A list of filter expressions used to select the logs to read (e.g. `_SYSTEMD_UNIT=vault.service`). Defaults to all logs. See [include_matches](https://www.elastic.co/guide/en/beats/filebeat/7.x/filebeat-input-journald.html#filebeat-input-journald-include-matches) for details.
+
+      - name: paths
+        type: text
+        title: Journal paths
+        multi: true
+        show_user: false
+        description: >
+          List of journals to read from. Defaults to the system journal.
+
+      - name: tags
+        type: text
+        title: Tags
+        multi: true
+        required: true
+        show_user: false
+        default:
+          - openvpn-log
+      - name: processors
+        type: yaml
+        title: Processors
+        multi: false
+        required: false
+        show_user: false
+        description: >-
+          Processors are used to reduce the number of fields in the exported event or to enhance the event with metadata.  This executes in the agent before the logs are parsed. See [Processors](https://www.elastic.co/guide/en/beats/filebeat/current/filtering-and-enhancing-data.html) for details.

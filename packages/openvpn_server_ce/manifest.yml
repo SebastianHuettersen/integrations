@@ -1,7 +1,7 @@
 format_version: 2.13.0
 name: openvpn_server_ce
 title: "OpenVPN Community Edition Server"
-version: 0.0.5
+version: 0.0.6
 source:
   license: "Apache-2.0"
 description: "Collect logs and metrics from OpenVPN CE Server"
@@ -30,8 +30,11 @@ policy_templates:
     description: Collect logs from OpenVPN Community Edition instances
     inputs:
       - type: logfile
-        title: Collect logs from OpenVPN CE instances
-        description: Collect OpenVPN CE server logs
+        title: "Collect OpenVPN CE application logs (input: logfile)"
+        description: "Collecting application logs from OpenVPN CE instances (input: logfile)"
+      - type: journald
+        title: "Collect OpenVPN CE application logs (input: journald)"
+        description: "Collecting application logs from OpenVPN CE instances (input: journald)"
 owner:
   github: SebastianHuettersen/integrations
   type: community

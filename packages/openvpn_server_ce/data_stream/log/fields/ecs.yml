@@ -41,7 +41,19 @@
 - external: ecs
   name: process.name
 - external: ecs
+  name: process.args
+- external: ecs
+  name: process.args_count
+- external: ecs
+  name: process.command_line
+- external: ecs
+  name: process.pid
+- external: ecs
   name: user.name
+- external: ecs
+  name: user.id
+- external: ecs
+  name: user.group.id
 - external: ecs
   name: interface.name
 - external: ecs
@@ -50,3 +62,11 @@
   name: tls.curve
 - external: ecs
   name: tls.version
+- external: ecs
+  name: log.syslog.facility.code
+- external: ecs
+  name: log.syslog.priority
+- external: ecs
+  name: log.syslog.appname
+- external: ecs
+  name: log.syslog.procid
